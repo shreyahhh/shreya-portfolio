@@ -41,17 +41,23 @@ const Contact = () => {
   ];
 
   return (
-    <section id="contact" className="section bg-lavender/5">
-      <div className="container">
-        <motion.h2 
-          className="section-title"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-        >
-          Connect With Me
-        </motion.h2>
+    <motion.section
+      id="contact"
+      className="section bg-black text-white"
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.7 }}
+    >
+      <motion.h2
+        className="text-3xl font-bold mb-6 text-white text-center"
+        initial={{ opacity: 0, scale: 0.95 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+      >
+        Connect With Me
+      </motion.h2>
         
         <div className="max-w-5xl mx-auto">
           <motion.div
@@ -69,7 +75,7 @@ const Contact = () => {
                   </svg>
                 </div>
                 <div>
-                  <h4 className="font-medium mb-1">Email</h4>
+                  <h4 className="font-medium mb-1 text-white">Email</h4>
                   <a href="mailto:e22cseu0785@bennett.edu.in" className="hover:text-pink transition-colors">
                     e22cseu0785@bennett.edu.in
                   </a>
@@ -83,7 +89,7 @@ const Contact = () => {
                   </svg>
                 </div>
                 <div>
-                  <h4 className="font-medium mb-1">Phone</h4>
+                  <h4 className="font-medium mb-1 text-white">Phone</h4>
                   <a href="tel:+919451954329" className="hover:text-pink transition-colors">
                     +91 9451954329
                   </a>
@@ -91,7 +97,7 @@ const Contact = () => {
               </div>
               
               <div>
-                <h4 className="font-medium mb-4">Connect with me</h4>
+                <h4 className="font-medium mb-4 text-white">Connect with me</h4>
                 <div className="flex justify-center space-x-4">
                   {socialLinks.map((social) => (
                     <a 
@@ -110,8 +116,7 @@ const Contact = () => {
             </div>
           </motion.div>
         </div>
-      </div>
-    </section>
+    </motion.section>
   );
 };
 

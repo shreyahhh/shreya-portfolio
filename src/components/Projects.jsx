@@ -73,14 +73,21 @@ const Projects = () => {
   ];
 
   return (
-    <section id="projects" className="section bg-white">
+    <motion.section
+      id="projects"
+      className="section bg-black text-black"
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.7 }}
+    >
       <div className="container">
-        <motion.h2 
-          className="section-title"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+        <motion.h2
+          className="text-3xl font-bold mb-6 text-white text-center"
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.6 }}
         >
           Projects
         </motion.h2>
@@ -89,7 +96,8 @@ const Projects = () => {
           {projects.map((project, idx) => (
             <motion.div 
               key={project.title}
-              className="card overflow-hidden group"
+              className="card p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300"
+              style={{ backgroundColor: '#dedddc' }}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -142,7 +150,7 @@ const Projects = () => {
           ))}
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 };
 

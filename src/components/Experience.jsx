@@ -34,17 +34,23 @@ const Experience = () => {
   ];
 
   return (
-    <section id="experience" className="section bg-lavender/5">
-      <div className="container">
-        <motion.h2 
-          className="section-title"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-        >
-          Professional Experience
-        </motion.h2>
+    <motion.section
+      id="experience"
+      className="section bg-black text-black"
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.7 }}
+    >
+      <motion.h2
+        className="text-3xl font-bold mb-6 text-white text-center"
+        initial={{ opacity: 0, scale: 0.95 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+      >
+        Professional Experience
+      </motion.h2>
         
         <div className="max-w-4xl mx-auto">
           {experiences.map((exp, idx) => (
@@ -66,7 +72,7 @@ const Experience = () => {
                 <div className="w-2 h-2 rounded-full bg-white"></div>
               </div>
               
-              <div className="card border-l-4 border-pink">
+              <div className="card border-l-4 border-pink p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300" style={{ backgroundColor: '#dedddc' }}>
                 <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-4">
                   <div>
                     <h3 className="text-xl font-display font-medium text-gray-800">{exp.role}</h3>
@@ -89,8 +95,7 @@ const Experience = () => {
             </motion.div>
           ))}
         </div>
-      </div>
-    </section>
+    </motion.section>
   );
 };
 

@@ -36,51 +36,46 @@ const Skills = () => {
   };
 
   return (
-    <section id="skills" className="section bg-lavender/5">
-      <div className="container">
-        <motion.h2 
-          className="section-title"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-        >
-          Technical Skills
-        </motion.h2>
+    <motion.section
+      id="skills"
+      className="section bg-black text-black"
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.7 }}
+    >
+      <motion.h2
+        className="text-3xl font-bold mb-6 text-white text-center"
+        initial={{ opacity: 0, scale: 0.95 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+      >
+        Technical Skills
+      </motion.h2>
         
-        <div className="grid md:grid-cols-2 gap-8">
+        <div className="grid md:grid-cols-2 gap-8 px-4 md:px-8">
           {skillCategories.map((category, idx) => (
-            <motion.div 
+            <motion.div
               key={category.title}
-              className="card"
+              className="card" style={{ backgroundColor: '#dedddc' }}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: idx * 0.1 }}
             >
-              <h3 className="text-xl font-display font-medium mb-4 text-pink">{category.title}</h3>
-              <motion.div 
-                className="flex flex-wrap"
-                variants={container}
-                initial="hidden"
-                whileInView="show"
-                viewport={{ once: true }}
-              >
-                {category.skills.map(skill => (
-                  <motion.span 
-                    key={skill} 
-                    className="skill-tag"
-                    variants={item}
-                  >
+              <h3 className="text-xl font-display font-medium mb-4 text-black text-center">{category.title}</h3>
+              <motion.div className="flex flex-wrap justify-center">
+                {category.skills.map((skill, i) => (
+                  <span key={i} className="skill-tag mx-1 my-1 px-4 py-2 rounded-full text-sm font-medium inline-block" style={{ backgroundColor: '#fff', color: '#111' }}>
                     {skill}
-                  </motion.span>
+                  </span>
                 ))}
               </motion.div>
             </motion.div>
           ))}
         </div>
-      </div>
-    </section>
+    </motion.section>
   );
 };
 

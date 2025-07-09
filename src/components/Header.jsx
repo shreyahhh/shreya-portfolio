@@ -27,31 +27,25 @@ const Header = () => {
   ];
 
   return (
-    <header 
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-cream shadow-md py-2' : 'bg-transparent py-4'
-      }`}
-    >
-      <div className="container flex items-center justify-between">
-        <a href="#" className="text-2xl font-display font-semibold tracking-tight text-pink">
+    <header className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-black shadow-md py-2' : 'bg-transparent py-4'}`}>
+      <nav className="container mx-auto flex items-center justify-between">
+        <a href="#" className="text-2xl font-display font-semibold tracking-tight text-white">
           Shreya
         </a>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:block">
-          <ul className="flex space-x-8">
+        <div className="hidden md:flex space-x-8">
             {navLinks.map((link) => (
               <li key={link.name}>
                 <a 
                   href={link.href}
-                  className="font-medium hover:text-pink transition-colors"
+                  className="font-medium hover:text-gray-300 transition-colors text-white"
                 >
                   {link.name}
                 </a>
               </li>
             ))}
-          </ul>
-        </nav>
+          </div>
 
         {/* Mobile Menu Button */}
         <button 
@@ -66,18 +60,18 @@ const Header = () => {
             )}
           </svg>
         </button>
-      </div>
+      </nav>
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-cream">
+        <div className="md:hidden bg-black">
           <nav className="container py-4">
             <ul className="flex flex-col space-y-4">
               {navLinks.map((link) => (
                 <li key={link.name}>
                   <a 
                     href={link.href}
-                    className="block font-medium hover:text-pink transition-colors"
+                    className="block font-medium hover:text-gray-300 transition-colors text-white"
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     {link.name}
