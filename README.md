@@ -1,6 +1,6 @@
 # Shreya's Portfolio
 
-A modern, personal portfolio website to showcase my projects, skills, and accomplishments. Built to reflect my journey as an aspiring Software Developer and AI Enthusiast, this site highlights my work in product management, AI/ML, full stack development, and design. I am a Computer Science Engineering student at Bennett University, passionate about building intelligent and elegant solutions.
+A modern, personal portfolio website to showcase my projects, skills, and accomplishments. Built to reflect my journey as an aspiring Software Developer and AI Enthusiast, this site highlights my work in product management, AI/ML, full stack development, and design.
 
 ## Tech Stack
 
@@ -33,4 +33,3 @@ A modern, personal portfolio website to showcase my projects, skills, and accomp
 
 ---
 
-Designed and developed by Shreya.
