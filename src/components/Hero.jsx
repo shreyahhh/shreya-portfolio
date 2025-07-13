@@ -66,12 +66,12 @@ const Hero = () => {
             className="flex flex-col sm:flex-row justify-center gap-4"
           >
             <a 
-              href="/resume.pdf" 
+              href="https://drive.google.com/file/d/10ftHzNjr_5E1UZscmR-QgvB_qvgd7_uG/view?usp=sharing" 
               target="_blank" 
               rel="noopener noreferrer"
               className="btn btn-primary"
             >
-              Download Resume
+              Resume
             </a>
             <a 
               href="#contact" 
