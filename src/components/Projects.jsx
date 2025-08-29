@@ -11,7 +11,7 @@ const Projects = () => {
         "Implemented time series forecasting models to improve inventory management and reduce stockouts."
       ],
       github: "https://github.com/shreyahhh/Demand-Forecasting",
-      image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80"
+      image: "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=800&q=80"
     },
     {
       title: "FFN-MNIST Dataset",
@@ -22,7 +22,7 @@ const Projects = () => {
         "Achieved high accuracy in digit recognition."
       ],
       github: "https://github.com/shreyahhh/FFN-MNIST",
-      image: "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=800&q=80"
+      image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=80"
     },
     {
       title: "Amazon Review Analyzer",
@@ -45,7 +45,7 @@ const Projects = () => {
         "Improved accuracy and speed of event recognition in football videos."
       ],
       github: "https://github.com/shreyahhh/CV_for_Football_Analysis_YOLOv8",
-      image: "https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&fit=crop&w=800&q=80"
+      image: "https://images.unsplash.com/photo-1503676382389-4809596d5290?auto=format&fit=crop&w=800&q=80"
     },
   ];
 
