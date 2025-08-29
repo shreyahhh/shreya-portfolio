@@ -10,6 +10,9 @@
   }
   body {
     @apply bg-black font-sans;
+    background-color: #111;
+    background-image: radial-gradient(circle, #aaa 5px, transparent 6px);
+    background-size: 40px 40px;
   }
   h1, h2, h3, h4 {
     @apply font-display;

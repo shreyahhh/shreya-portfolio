@@ -4,6 +4,7 @@ import Hero from './components/Hero'
 import About from './components/About'
 import Skills from './components/Skills'
 import Projects from './components/Projects'
+import DeployedProjects from './components/DeployedProjects'
 import Experience from './components/Experience'
 import Accomplishments from './components/Accomplishments'
 import Contact from './components/Contact'
@@ -21,8 +22,9 @@ function App() {
         <Hero />
         <About />
         <Skills />
-        <Projects />
-        <Experience />
+  <Projects />
+  <DeployedProjects />
+  <Experience />
         <Accomplishments />
         <Contact />
       </main>

@@ -8,8 +8,9 @@ const Experience = () => {
       location: "Lucknow",
       period: "Sept 2024 - Dec 2024",
       achievements: [
-        "Lead the full-stack development of the company website, managing both frontend and backend aspects, enhancing the company's online presence by 100%.",
-        "Integrated Calendly API with real-time email notifications to automate customer call bookings, reducing manual scheduling effort by 80% and improving the owner's response time by 30%."
+        "Engineered and launched a full-stack web platform using React, TypeScript, Express.js, and SQLite, increasing client engagement by 60% and serving 2000+ monthly active users.",
+        "Integrated Calendly API with real-time email notifications using SMTP services, automating 500+ customer bookings monthly and reducing manual scheduling overhead by 80%.",
+        "Introduced file upload functionality with Multer middleware, supporting 1000+ gallery image uploads and reducing user access issues by 50%."
       ]
     },
     {
@@ -99,4 +100,4 @@ const Experience = () => {
   );
 };
 
-export default Experience; 
+export default Experience;
