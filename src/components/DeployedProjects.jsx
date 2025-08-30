@@ -40,7 +40,7 @@ const projects = [
     screenshot: null
   },
   {
-    title: "Ecosync- Smart Energy Management",
+    title: "Ecosync",
     url: "https://venerable-belekoy-5b5dd9.netlify.app/",
     github: "https://github.com/shreyahhh/Ecosync-Luminous-Top-10-Project",
     tags: ["ML", "Gamification", "XGBoost", "React", "TypeScript", "Vite"],
@@ -87,10 +87,10 @@ const DeployedProjects = () => {
                       src={project.url}
                       title={project.title}
                       loading="lazy"
-                    sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
-                    onLoad={() => handleIframeLoad(idx)}
-                    onError={() => handleIframeError(idx)}
-                  />
+                      sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+                      onLoad={() => handleIframeLoad(idx)}
+                      onError={() => handleIframeError(idx)}
+                    />
                     {loading[idx] && (
                       <div className="loading-spinner absolute inset-0 flex flex-col items-center justify-center text-gray-300 z-10 bg-black bg-opacity-80">
                         <div className="spinner animate-spin w-12 h-12 border-4 border-gray-700 border-t-indigo-500 rounded-full mb-2"></div>

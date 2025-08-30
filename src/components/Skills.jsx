@@ -102,56 +102,52 @@ const leftCategories = [skillCategories[0], skillCategories[2], skillCategories[
 const rightCategories = [skillCategories[1], skillCategories[3], skillCategories[4], skillCategories[5]];
 
 const Skills = () => {
-	return (
-		<motion.section
-			id="skills"
-			className="section bg-black text-black"
-			initial={{ opacity: 0, y: 40 }}
-			whileInView={{ opacity: 1, y: 0 }}
-			viewport={{ once: true }}
-			transition={{ duration: 0.7 }}
-		>
-			<motion.h2
-				className="text-3xl font-bold mb-6 text-white text-center"
-				initial={{ opacity: 0, scale: 0.95 }}
-				whileInView={{ opacity: 1, scale: 1 }}
+		return (
+			<motion.section
+				id="skills"
+				className="section bg-black text-white py-16"
+				initial={{ opacity: 0, y: 40 }}
+				whileInView={{ opacity: 1, y: 0 }}
 				viewport={{ once: true }}
-				transition={{ duration: 0.6 }}
+				transition={{ duration: 0.7 }}
 			>
-				Technical Skills
-			</motion.h2>
-			<div className="grid grid-cols-1 md:grid-cols-2 gap-4 px-2 md:px-4">
-				<div className="flex flex-col gap-4">
-					{leftCategories.map((category, idx) => (
-						<div key={category.title} className="border border-gray-400 rounded-xl p-3">
-							<h3 className="text-lg font-semibold mb-2 text-white text-left">{category.title}</h3>
-							<div className="flex flex-wrap gap-2">
-								{category.skills.map((skill, i) => (
-									<span key={i} className="skill-tag px-2 py-1 rounded-full text-xs font-medium bg-white text-black border border-gray-300">
-										{skill}
-									</span>
-								))}
-							</div>
-						</div>
-					))}
-				</div>
-				<div className="flex flex-col gap-4">
-					{rightCategories.map((category, idx) => (
-						<div key={category.title} className="border border-gray-400 rounded-xl p-3">
-							<h3 className="text-lg font-semibold mb-2 text-white text-left">{category.title}</h3>
-							<div className="flex flex-wrap gap-2">
-								{category.skills.map((skill, i) => (
-									<span key={i} className="skill-tag px-2 py-1 rounded-full text-xs font-medium bg-white text-black border border-gray-300">
-										{skill}
-									</span>
-								))}
-							</div>
-						</div>
-					))}
-				</div>
-			</div>
-		</motion.section>
-	);
+				<motion.h2
+					className="text-3xl font-bold mb-10 text-white text-center"
+					initial={{ opacity: 0, scale: 0.95 }}
+					whileInView={{ opacity: 1, scale: 1 }}
+					viewport={{ once: true }}
+					transition={{ duration: 0.6 }}
+				>
+					Technical Skills
+				</motion.h2>
+								<div className="w-full max-w-7xl mx-auto px-2 md:px-8">
+									<div className="overflow-x-auto">
+										<table className="w-full">
+											<thead>
+												<tr>
+													<th className="text-left text-lg font-semibold text-gray-300 pb-2 pl-4">Category</th>
+													<th className="text-left text-lg font-semibold text-gray-300 pb-2">Skills</th>
+												</tr>
+											</thead>
+											<tbody>
+												{skillCategories.map((category, idx) => (
+													<tr key={category.title} className="border-b border-gray-700">
+														<td className="align-top py-4 pl-4 pr-8 font-bold text-base text-white whitespace-nowrap">
+															{category.title}
+														</td>
+														<td className="py-4">
+															<span className="text-base text-gray-100">
+																{category.skills.join(', ')}
+															</span>
+														</td>
+													</tr>
+												))}
+											</tbody>
+										</table>
+									</div>
+								</div>
+			</motion.section>
+		);
 };
 
 export default Skills;
