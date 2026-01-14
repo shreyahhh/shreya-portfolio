@@ -26,6 +26,25 @@ const Header = () => {
     { name: 'Contact', href: '#contact' }
   ];
 
+  const handleNavClick = (e, href) => {
+    e.preventDefault();
+    const targetId = href.substring(1);
+    const targetElement = document.getElementById(targetId);
+    
+    if (targetElement) {
+      const headerHeight = 80; // Account for fixed header
+      const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - headerHeight;
+      
+      window.scrollTo({
+        top: targetPosition,
+        behavior: 'smooth'
+      });
+    }
+    
+    // Close mobile menu if open
+    setMobileMenuOpen(false);
+  };
+
   return (
     <header className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-[#0a0a0a]/95 backdrop-blur-sm border-b border-gray-800 shadow-xl py-2' : 'bg-transparent py-4'}`}>
       <nav className="container mx-auto flex items-center justify-between">
@@ -39,7 +58,8 @@ const Header = () => {
               <li key={link.name} className="list-none">
                 <a 
                   href={link.href}
-                  className="font-medium hover:text-indigo-400 transition-colors text-[#a1a1a1]"
+                  onClick={(e) => handleNavClick(e, link.href)}
+                  className="font-medium hover:text-indigo-400 transition-colors text-[#a1a1a1] cursor-pointer"
                 >
                   {link.name}
                 </a>
@@ -71,8 +91,8 @@ const Header = () => {
                 <li key={link.name}>
                   <a 
                     href={link.href}
-                    className="block font-medium hover:text-indigo-400 transition-colors text-[#a1a1a1]"
-                    onClick={() => setMobileMenuOpen(false)}
+                    onClick={(e) => handleNavClick(e, link.href)}
+                    className="block font-medium hover:text-indigo-400 transition-colors text-[#a1a1a1] cursor-pointer"
                   >
                     {link.name}
                   </a>

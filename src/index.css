@@ -7,7 +7,15 @@
 /* Global Zoom - Neurazor style (80% of default size for compact UI) */
 html {
   font-size: 80%;
-  scroll-smooth: smooth;
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px; /* Account for fixed header */
+}
+
+/* Smooth scrolling for all browsers */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 /* Dark mode only - Neurazor color scheme */
