@@ -67,14 +67,14 @@ const Accomplishments = () => {
   return (
     <motion.section
       id="accomplishments"
-      className="section bg-black text-white"
+      className="section bg-[#0a0a0a] text-[#ededed]"
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.7 }}
     >
       <motion.h2
-        className="text-3xl font-bold mb-6 text-white text-center"
+        className="text-3xl font-semibold mb-10 text-[#ededed] text-center"
         initial={{ opacity: 0, scale: 0.95 }}
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true }}
@@ -91,23 +91,23 @@ const Accomplishments = () => {
           {queueCards.map((item, idx) => (
             <motion.div
               key={`${item.title}-${idx}`}
-              className="card text-center p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 flex-shrink-0"
-              style={{ backgroundColor: '#dedddc', width: '280px' }}
+              className="bg-[#111111] border border-gray-700 text-center p-6 rounded-lg shadow-xl hover:shadow-2xl transition-shadow duration-300 flex-shrink-0"
+              style={{ width: '280px' }}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: idx * 0.1 }}
               whileHover={{ y: -5, transition: { duration: 0.2 } }}
             >
-              <div className="mx-auto mb-4 w-16 h-16 rounded-full flex items-center justify-center text-3xl bg-white">
+              <div className="mx-auto mb-4 w-16 h-16 rounded-full flex items-center justify-center text-3xl bg-white/5 border border-white/10">
                 {item.title.includes('Certificate') && '📜'}
                 {item.title.includes('Research') && '📖'}
                 {item.title.includes('Hackathon') && '💡'}
                 {item.title.includes('Top 10') && '🥇'}
                 {item.title.includes('NEST2025') && '🏆'}
               </div>
-              <h3 className="text-lg font-display font-medium mb-2 text-black">{item.title}</h3>
-              <p className="text-sm text-gray-700">{item.description}</p>
+              <h3 className="text-lg font-semibold mb-2 text-[#ededed]">{item.title}</h3>
+              <p className="text-sm text-[#a1a1a1]">{item.description}</p>
             </motion.div>
           ))}
         </div>

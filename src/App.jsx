@@ -22,9 +22,9 @@ function App() {
         <Hero />
         <About />
         <Skills />
-  <Projects />
-  <DeployedProjects />
-  <Experience />
+        <Experience />
+        <Projects />
+        <DeployedProjects />
         <Accomplishments />
         <Contact />
       </main>

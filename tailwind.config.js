@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: 'class',
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
@@ -7,9 +8,13 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Use only grayscale colors for a black and white theme
-        black: '#000',
-        white: '#fff',
+        // Neurazor color scheme
+        neurazor: {
+          bg: '#0a0a0a',
+          surface: '#111111',
+          textPrimary: '#ededed',
+          textSecondary: '#a1a1a1',
+        },
         gray: {
           50: '#f9fafb',
           100: '#f3f4f6',
@@ -25,7 +30,7 @@ module.exports = {
       },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
-        display: ['Playfair Display', 'serif'],
+        display: ['Inter', 'sans-serif'],
       },
     },
   },

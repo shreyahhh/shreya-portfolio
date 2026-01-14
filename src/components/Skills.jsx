@@ -12,9 +12,6 @@ const skillCategories = [
 			'HTML5',
 			'CSS3',
 			'C++',
-			'PHP',
-			'HiveQL',
-			'Pig Latin',
 		],
 	},
 	{
@@ -75,44 +72,24 @@ const skillCategories = [
 			'Firebase Auth',
 			'NHost',
 			'VS Code',
-			'Vite',
-			'Webpack',
-			'CORS',
-		],
-	},
-	{
-		title: 'Libraries',
-		skills: [
-			'Pandas',
-			'NumPy',
-			'Matplotlib',
-			'Scikit-learn',
-			'TensorFlow',
-			'Seaborn',
-			'Plotly',
-			'NLTK',
-			'PySpark',
-			'LightGBM',
-			'Statsmodels',
+			'Cursor',
+			'Copilot',
 		],
 	},
 ];
-
-const leftCategories = [skillCategories[0], skillCategories[2], skillCategories[6]];
-const rightCategories = [skillCategories[1], skillCategories[3], skillCategories[4], skillCategories[5]];
 
 const Skills = () => {
 		return (
 			<motion.section
 				id="skills"
-				className="section bg-black text-white py-16"
+				className="section bg-[#0a0a0a] text-[#ededed] py-16"
 				initial={{ opacity: 0, y: 40 }}
 				whileInView={{ opacity: 1, y: 0 }}
 				viewport={{ once: true }}
 				transition={{ duration: 0.7 }}
 			>
 				<motion.h2
-					className="text-3xl font-bold mb-10 text-white text-center"
+					className="text-3xl font-semibold mb-10 text-[#ededed] text-center"
 					initial={{ opacity: 0, scale: 0.95 }}
 					whileInView={{ opacity: 1, scale: 1 }}
 					viewport={{ once: true }}
@@ -125,18 +102,18 @@ const Skills = () => {
 										<table className="w-full">
 											<thead>
 												<tr>
-													<th className="text-left text-lg font-semibold text-gray-300 pb-2 pl-4">Category</th>
-													<th className="text-left text-lg font-semibold text-gray-300 pb-2">Skills</th>
+													<th className="text-left text-lg font-semibold text-[#ededed] pb-2 pl-4">Category</th>
+													<th className="text-left text-lg font-semibold text-[#ededed] pb-2">Skills</th>
 												</tr>
 											</thead>
 											<tbody>
 												{skillCategories.map((category, idx) => (
 													<tr key={category.title} className="border-b border-gray-700">
-														<td className="align-top py-4 pl-4 pr-8 font-bold text-base text-white whitespace-nowrap">
+														<td className="align-top py-4 pl-4 pr-8 font-semibold text-base text-[#ededed] whitespace-nowrap">
 															{category.title}
 														</td>
 														<td className="py-4">
-															<span className="text-base text-gray-100">
+															<span className="text-base text-[#a1a1a1]">
 																{category.skills.join(', ')}
 															</span>
 														</td>

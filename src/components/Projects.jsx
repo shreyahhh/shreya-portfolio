@@ -53,7 +53,7 @@ const Projects = () => {
     <>
       <motion.section
         id="projects"
-        className="section bg-black text-black"
+        className="section bg-[#0a0a0a] text-[#ededed]"
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -61,7 +61,7 @@ const Projects = () => {
       >
         <div className="container">
           <motion.h2
-            className="text-3xl font-bold mb-6 text-white text-center"
+            className="text-3xl font-semibold mb-10 text-[#ededed] text-center"
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
@@ -73,14 +73,13 @@ const Projects = () => {
             {projects.map((project, idx) => (
               <motion.div 
                 key={project.title}
-                className="card p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300"
-                style={{ backgroundColor: '#dedddc' }}
+                className="bg-[#111111] border border-gray-700 p-6 rounded-lg shadow-xl hover:shadow-2xl transition-shadow duration-300"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: idx * 0.1 }}
               >
-                <div className="h-48 overflow-hidden mb-4 rounded-md">
+                <div className="h-48 overflow-hidden mb-4 rounded-lg">
                   <img 
                     src={project.image} 
                     alt={project.title} 
@@ -89,20 +88,20 @@ const Projects = () => {
                 </div>
                 <div>
                   <div className="flex justify-between items-center mb-2">
-                    <h3 className="text-xl font-display font-medium text-pink">{project.title}</h3>
-                    <span className="text-sm text-gray-500">{project.timeline}</span>
+                    <h3 className="text-xl font-semibold text-[#ededed]">{project.title}</h3>
+                    <span className="text-sm text-[#a1a1a1]">{project.timeline}</span>
                   </div>
                   <div className="flex flex-wrap gap-2 mb-4">
                     {project.stack.map(tech => (
-                      <span key={tech} className="bg-lavender/10 text-lavender text-xs px-2 py-1 rounded-full">
+                      <span key={tech} className="bg-white/5 border border-white/10 text-[#a1a1a1] text-xs px-2 py-1 rounded-full">
                         {tech}
                       </span>
                     ))}
                   </div>
                   <ul className="mb-4 text-sm space-y-2">
                     {project.highlights.map((highlight, i) => (
-                      <li key={i} className="flex items-start">
-                        <span className="text-peach mr-2 mt-1 flex-shrink-0">•</span>
+                      <li key={i} className="flex items-start text-[#a1a1a1]">
+                        <span className="text-indigo-400 mr-2 mt-1 flex-shrink-0">•</span>
                         <span>{highlight}</span>
                       </li>
                     ))}
@@ -111,7 +110,7 @@ const Projects = () => {
                     href={project.github} 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="inline-flex items-center text-pink hover:underline"
+                    className="inline-flex items-center text-indigo-400 hover:text-indigo-300 transition-colors"
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
                       <path fillRule="evenodd" d="M10 0C4.477 0 0 4.477 0 10c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V19c0 .27.16.59.67.5C17.14 18.16 20 14.42 20 10A10 10 0 0010 0z" clipRule="evenodd" />

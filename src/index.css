@@ -1,20 +1,61 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* Global Zoom - Neurazor style (80% of default size for compact UI) */
+html {
+  font-size: 80%;
+  scroll-smooth: smooth;
+}
+
+/* Dark mode only - Neurazor color scheme */
+:root {
+  --color-bg-base: #0a0a0a;
+  --color-surface: #111111;
+  --color-text-primary: #ededed;
+  --color-text-secondary: #a1a1a1;
+  color-scheme: dark;
+}
+
 @layer base {
-  html {
-    @apply scroll-smooth;
-  }
   body {
-  @apply bg-black font-sans;
-  background-color: #111;
+    background-color: var(--color-bg-base);
+    color: var(--color-text-primary);
+    font-family: 'Inter', sans-serif;
   }
-  h1, h2, h3, h4 {
-    @apply font-display;
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    color: var(--color-text-primary);
   }
+}
+
+/* Prevent horizontal scroll globally */
+html, body {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+/* Custom scrollbar for dark mode - Neurazor style */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #444;
 }
 
 @layer components {
@@ -25,24 +66,24 @@
     @apply py-16;
   }
   .section-title {
-    @apply text-3xl md:text-4xl font-display font-medium mb-12 text-center;
+    @apply text-3xl md:text-4xl font-semibold mb-12 text-center;
   }
   .btn {
-    @apply px-6 py-2 rounded-md font-medium transition-all duration-300;
+    @apply px-6 py-3 rounded-lg font-semibold transition-all duration-300;
   }
   .btn-primary {
-    @apply bg-gray-700 text-white hover:bg-opacity-90;
+    @apply bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-400 hover:to-purple-400 text-white;
   }
   .btn-secondary {
-    @apply bg-gray-400 text-white hover:bg-opacity-90;
+    @apply bg-white/5 border border-white/10 text-white hover:bg-white/10;
   }
   .btn-outline {
-    @apply border-2 border-gray-700 text-gray-700 hover:bg-gray-700 hover:text-white;
+    @apply border-2 border-gray-700 text-gray-300 hover:bg-gray-800 hover:text-white;
   }
   .card {
-    @apply bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300;
+    @apply bg-[#111111] border border-gray-700 p-6 rounded-lg shadow-xl hover:shadow-2xl transition-shadow duration-300;
   }
   .skill-tag {
-    @apply px-4 py-2 bg-gray-200 bg-opacity-40 rounded-full text-sm font-medium m-1 inline-block;
+    @apply px-4 py-2 bg-white/5 border border-white/10 rounded-full text-sm font-medium m-1 inline-block;
   }
 }

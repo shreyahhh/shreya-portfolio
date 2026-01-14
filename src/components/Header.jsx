@@ -27,29 +27,29 @@ const Header = () => {
   ];
 
   return (
-    <header className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-black shadow-md py-2' : 'bg-transparent py-4'}`}>
+    <header className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-[#0a0a0a]/95 backdrop-blur-sm border-b border-gray-800 shadow-xl py-2' : 'bg-transparent py-4'}`}>
       <nav className="container mx-auto flex items-center justify-between">
-        <a href="#" className="text-2xl font-display font-semibold tracking-tight text-white">
+        <a href="#" className="text-2xl font-semibold tracking-tight text-[#ededed]">
           Shreya
         </a>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:flex space-x-8">
+        <ul className="hidden md:flex space-x-8 list-none">
             {navLinks.map((link) => (
-              <li key={link.name}>
+              <li key={link.name} className="list-none">
                 <a 
                   href={link.href}
-                  className="font-medium hover:text-gray-300 transition-colors text-white"
+                  className="font-medium hover:text-indigo-400 transition-colors text-[#a1a1a1]"
                 >
                   {link.name}
                 </a>
               </li>
             ))}
-          </div>
+          </ul>
 
         {/* Mobile Menu Button */}
         <button 
-          className="md:hidden text-gray-800"
+          className="md:hidden text-[#ededed]"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
         >
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
@@ -64,14 +64,14 @@ const Header = () => {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-black">
+        <div className="md:hidden bg-[#0a0a0a] border-t border-gray-800">
           <nav className="container py-4">
             <ul className="flex flex-col space-y-4">
               {navLinks.map((link) => (
                 <li key={link.name}>
                   <a 
                     href={link.href}
-                    className="block font-medium hover:text-gray-300 transition-colors text-white"
+                    className="block font-medium hover:text-indigo-400 transition-colors text-[#a1a1a1]"
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     {link.name}

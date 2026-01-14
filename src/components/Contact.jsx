@@ -43,14 +43,14 @@ const Contact = () => {
   return (
     <motion.section
       id="contact"
-      className="section bg-black text-white"
+      className="section bg-[#0a0a0a] text-[#ededed]"
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.7 }}
     >
       <motion.h2
-        className="text-3xl font-bold mb-6 text-white text-center"
+        className="text-3xl font-semibold mb-10 text-[#ededed] text-center"
         initial={{ opacity: 0, scale: 0.95 }}
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true }}
@@ -69,29 +69,29 @@ const Contact = () => {
           >
             <div className="space-y-6">
               <div className="flex items-center justify-center">
-                <div className="text-pink mr-4">
+                <div className="text-indigo-400 mr-4">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>
                 </div>
-                <a href="mailto:e22cseu0785@bennett.edu.in" className="hover:text-pink transition-colors">
-                  e22cseu0785@bennett.edu.in
+                <a href="mailto:shreyyaaa369@gmail.com" className="text-[#a1a1a1] hover:text-indigo-400 transition-colors">
+                  shreyyaaa369@gmail.com
                 </a>
               </div>
               
               <div className="flex items-center justify-center">
-                <div className="text-pink mr-4">
+                <div className="text-indigo-400 mr-4">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                   </svg>
                 </div>
-                <a href="tel:+919451954329" className="hover:text-pink transition-colors">
+                <a href="tel:+919451954329" className="text-[#a1a1a1] hover:text-indigo-400 transition-colors">
                   +91 9451954329
                 </a>
               </div>
               
               <div>
-                <h4 className="font-medium mb-4 text-white">Connect with me</h4>
+                <h4 className="font-semibold mb-4 text-[#ededed]">Connect with me</h4>
                 <div className="flex justify-center space-x-4">
                   {socialLinks.map((social) => (
                     <a 
@@ -99,7 +99,7 @@ const Contact = () => {
                       href={social.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-10 h-10 flex items-center justify-center rounded-full bg-white shadow-sm text-gray-600 hover:text-pink hover:shadow-md transition-all"
+                      className="w-12 h-12 flex items-center justify-center rounded-lg bg-white/5 border border-white/10 text-[#ededed] hover:bg-white/10 hover:border-indigo-400/50 transition-all"
                       aria-label={social.name}
                     >
                       {social.icon}
