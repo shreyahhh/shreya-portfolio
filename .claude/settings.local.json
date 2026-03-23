@@ -1,0 +1,27 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:niket.dev)",
+      "Bash(npm run:*)",
+      "Bash(pkill -f \"vite --port 5174\")",
+      "Bash(npx kill-port:*)",
+      "WebFetch(domain:unpkg.com)",
+      "WebFetch(domain:app.unpkg.com)",
+      "WebSearch",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:webneko.net)",
+      "WebFetch(domain:louisabraham.github.io)",
+      "WebFetch(domain:opengameart.org)",
+      "WebFetch(domain:elthen.itch.io)",
+      "WebFetch(domain:last-tick.itch.io)",
+      "WebFetch(domain:xzany.itch.io)",
+      "WebFetch(domain:api.github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(curl -s https://api.github.com/repos/raynecloudy/oneko_db)",
+      "Bash(curl -s https://api.github.com/repos/raynecloudy/oneko_db/contents/cats)",
+      "Bash(curl -s https://api.github.com/repos/raynecloudy/oneko_db/contents/)",
+      "Bash(curl -s https://raw.githubusercontent.com/raynecloudy/oneko_db/master/README.md)",
+      "Bash(curl -s -H \"User-Agent: Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36\" \"https://dribbble.com/shots/25433505-Portfolio-website-web-design-development-illustrations\")"
+    ]
+  }
+}

@@ -1,109 +1,28 @@
-import { useState, useEffect } from 'react';
+const NAV = [
+  { label: 'Home',     page: 'home' },
+  { label: 'Projects', page: 'projects' },
+  { label: 'Work',     page: 'work' },
+  { label: 'Contact',  page: 'contact' },
+]
 
-const Header = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const navLinks = [
-    { name: 'About', href: '#about' },
-    { name: 'Skills', href: '#skills' },
-    { name: 'Experience', href: '#experience' },
-    { name: 'Projects', href: '#projects' },
-    { name: 'Accomplishments', href: '#accomplishments' },
-    { name: 'Contact', href: '#contact' }
-  ];
-
-  const handleNavClick = (e, href) => {
-    e.preventDefault();
-    const targetId = href.substring(1);
-    const targetElement = document.getElementById(targetId);
-    
-    if (targetElement) {
-      const headerHeight = 80; // Account for fixed header
-      const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - headerHeight;
-      
-      window.scrollTo({
-        top: targetPosition,
-        behavior: 'smooth'
-      });
-    }
-    
-    // Close mobile menu if open
-    setMobileMenuOpen(false);
-  };
-
+export default function Header({ current, navigate }) {
   return (
-    <header className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-[#0a0a0a]/95 backdrop-blur-sm border-b border-gray-800 shadow-xl py-2' : 'bg-transparent py-4'}`}>
-      <nav className="container mx-auto flex items-center justify-between">
-        <a href="#" className="text-2xl font-semibold tracking-tight text-[#ededed]">
-          Shreya
-        </a>
-
-        {/* Desktop Navigation */}
-        <ul className="hidden md:flex space-x-8 list-none">
-            {navLinks.map((link) => (
-              <li key={link.name} className="list-none">
-                <a 
-                  href={link.href}
-                  onClick={(e) => handleNavClick(e, link.href)}
-                  className="font-medium hover:text-indigo-400 transition-colors text-[#a1a1a1] cursor-pointer"
-                >
-                  {link.name}
-                </a>
-              </li>
-            ))}
-          </ul>
-
-        {/* Mobile Menu Button */}
-        <button 
-          className="md:hidden text-[#ededed]"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-            {mobileMenuOpen ? (
-              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-            ) : (
-              <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-            )}
-          </svg>
-        </button>
+    <header className="fixed top-5 left-0 right-0 z-50 flex justify-center pointer-events-none">
+      <nav className="pointer-events-auto flex items-center gap-1 bg-[#111]/80 backdrop-blur-md border border-white/10 rounded-full px-2 py-1.5">
+        {NAV.map(({ label, page }) => (
+          <button
+            key={page}
+            onClick={() => navigate(page)}
+            className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-200 ${
+              current === page
+                ? 'bg-white text-[#0a0a0a]'
+                : 'text-[#a1a1a1] hover:text-white'
+            }`}
+          >
+            {label}
+          </button>
+        ))}
       </nav>
-
-      {/* Mobile Menu */}
-      {mobileMenuOpen && (
-        <div className="md:hidden bg-[#0a0a0a] border-t border-gray-800">
-          <nav className="container py-4">
-            <ul className="flex flex-col space-y-4">
-              {navLinks.map((link) => (
-                <li key={link.name}>
-                  <a 
-                    href={link.href}
-                    onClick={(e) => handleNavClick(e, link.href)}
-                    className="block font-medium hover:text-indigo-400 transition-colors text-[#a1a1a1] cursor-pointer"
-                  >
-                    {link.name}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </nav>
-        </div>
-      )}
     </header>
-  );
-};
-
-export default Header; 
+  )
+}
