@@ -262,15 +262,6 @@ export default function Home({ navigate }) {
         {/* Cat lives inside the hero so it scrolls with the page */}
         <ScreenCat nameRef={nameRef} />
 
-        {/* Top-right meta */}
-        <motion.div
-          className="absolute top-24 right-8 md:right-14 text-right"
-          initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.4 }}
-        >
-          <p className="text-[11px] uppercase tracking-widest text-[#555]">Currently at</p>
-          <p className="text-[13px] font-medium text-[#a1a1a1]">NeuRazor Labs</p>
-        </motion.div>
-
         {/* Bottom block — intro + name */}
         <motion.div
           className="relative z-10 w-full min-w-0 px-8 md:px-14 pb-32"

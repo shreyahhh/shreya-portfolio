@@ -731,7 +731,7 @@ function FindMeOnlineSection() {
           >
             Stalking welcome.{' '}
             <span className="catchy-script inline font-normal" style={{ fontSize: '1.22em' }}>
-              (LinkedIn preferred.)
+              (GitHub preferred.)
             </span>
           </p>
           <p style={{ margin: '16px 0 20px', fontSize: 14, color: 'rgba(255,255,255,0.35)', lineHeight: 1.6 }}>
