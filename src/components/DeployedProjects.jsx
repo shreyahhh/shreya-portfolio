@@ -91,7 +91,7 @@ const DeployedProjects = () => {
   };
 
   return (
-    <section className="py-16 bg-[#0a0a0a]">
+    <section className="bg-[#060606] py-16">
       <div className="portfolio-container mx-auto max-w-[1800px] px-4">
         <header className="portfolio-header text-center mb-12 text-[#ededed]">
           <h1 className="text-3xl md:text-4xl font-semibold mb-2">Deployed Projects</h1>
@@ -116,7 +116,7 @@ const DeployedProjects = () => {
                       onError={() => handleIframeError(idx)}
                     />
                     {loading[idx] && (
-                      <div className="loading-spinner absolute inset-0 flex flex-col items-center justify-center text-[#a1a1a1] z-10 bg-[#0a0a0a] bg-opacity-80">
+                      <div className="loading-spinner absolute inset-0 z-10 flex flex-col items-center justify-center bg-[#060606] bg-opacity-80 text-[#a1a1a1]">
                         <div className="spinner animate-spin w-12 h-12 border-4 border-gray-700 border-t-indigo-500 rounded-full mb-2"></div>
                         <span>Loading preview...</span>
                       </div>
@@ -130,7 +130,7 @@ const DeployedProjects = () => {
                   </>
                 )}
                 <div className="click-overlay absolute inset-0 flex items-center justify-center pointer-events-none transition-all duration-300">
-                  <div className="click-hint bg-[#0a0a0a] bg-opacity-95 px-6 py-3 rounded-lg font-semibold text-[#ededed] opacity-0 group-hover:opacity-100 shadow-lg transition-all border border-white/10">Click to open in new tab</div>
+                  <div className="click-hint rounded-lg border border-white/10 bg-[#060606] bg-opacity-95 px-6 py-3 font-semibold text-[#ededed] opacity-0 shadow-lg transition-all group-hover:opacity-100">Click to open in new tab</div>
                 </div>
               </div>
               {/* Bottom: Project Details */}

@@ -67,7 +67,7 @@ const Skills = ({ standalone }) => {
   return (
     <motion.section
       id="skills"
-      className="section bg-[#0a0a0a] text-[#ededed] py-16"
+      className="section bg-[#060606] text-[#ededed] py-16"
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}

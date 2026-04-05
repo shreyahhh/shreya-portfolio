@@ -10,7 +10,7 @@ module.exports = {
       colors: {
         // Neurazor color scheme
         neurazor: {
-          bg: '#0a0a0a',
+          bg: '#060606',
           surface: '#111111',
           textPrimary: '#ededed',
           textSecondary: '#a1a1a1',

@@ -15,7 +15,7 @@ export default function Header({ current, navigate }) {
             onClick={() => navigate(page)}
             className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-200 ${
               current === page
-                ? 'bg-white text-[#0a0a0a]'
+                ? 'bg-white text-[#060606]'
                 : 'text-[#a1a1a1] hover:text-white'
             }`}
           >

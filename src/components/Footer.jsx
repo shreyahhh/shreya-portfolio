@@ -5,6 +5,9 @@ const NAV = [
   { label: 'Contact',  page: 'contact' },
 ]
 
+const RESUME_DRIVE_VIEW =
+  'https://drive.google.com/file/d/1OgplMsVuovtLxsdZKzXAOrVxCq9QTQZV/view?usp=sharing'
+
 const SOCIALS = [
   { name: 'LinkedIn', url: 'https://www.linkedin.com/in/shreya-analyst/' },
   { name: 'GitHub',   url: 'https://github.com/shreyahhh' },
@@ -14,7 +17,7 @@ const SOCIALS = [
 
 export default function Footer({ navigate }) {
   return (
-    <footer className="bg-[#0a0a0a] border-t border-white/10 mt-8">
+    <footer className="bg-[#060606] border-t border-white/10 mt-8">
       <div className="max-w-6xl mx-auto px-6 py-12">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-10">
 
@@ -23,20 +26,28 @@ export default function Footer({ navigate }) {
             <button onClick={() => navigate('home')} className="text-xl font-bold text-white">
               Shreya<span className="text-indigo-400">.</span>
             </button>
-            <p className="mt-2 text-sm text-[#a1a1a1]">
+            <p className="mt-2 text-[14px] leading-relaxed text-[#a1a1a1]">
               Full-stack developer building smart, scalable web solutions.
             </p>
+            <a
+              href={RESUME_DRIVE_VIEW}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-3 inline-flex items-center rounded-full border border-white/20 bg-transparent px-3 py-1 text-[12px] font-medium text-[#a1a1a1] transition-colors hover:border-white/35 hover:text-white"
+            >
+              Resume
+            </a>
           </div>
 
           {/* Pages */}
           <div>
-            <h4 className="text-xs font-semibold uppercase tracking-widest text-[#a1a1a1] mb-4">Pages</h4>
+            <h4 className="mb-4 text-[11px] font-semibold uppercase tracking-widest text-[#a1a1a1]">Pages</h4>
             <ul className="space-y-2 list-none p-0">
               {NAV.map(({ label, page }) => (
                 <li key={page}>
                   <button
                     onClick={() => navigate(page)}
-                    className="text-sm text-[#a1a1a1] hover:text-white transition-colors"
+                    className="text-[13px] text-[#a1a1a1] transition-colors hover:text-white"
                   >
                     {label}
                   </button>
@@ -47,12 +58,12 @@ export default function Footer({ navigate }) {
 
           {/* Connect */}
           <div>
-            <h4 className="text-xs font-semibold uppercase tracking-widest text-[#a1a1a1] mb-4">Connect</h4>
+            <h4 className="mb-4 text-[11px] font-semibold uppercase tracking-widest text-[#a1a1a1]">Connect</h4>
             <ul className="space-y-2 list-none p-0">
               {SOCIALS.map(({ name, url }) => (
                 <li key={name}>
                   <a href={url} target="_blank" rel="noopener noreferrer"
-                    className="text-sm text-[#a1a1a1] hover:text-white transition-colors">
+                    className="text-[13px] text-[#a1a1a1] transition-colors hover:text-white">
                     {name}
                   </a>
                 </li>
@@ -66,22 +77,18 @@ export default function Footer({ navigate }) {
             <ul className="space-y-2 list-none p-0">
               <li>
                 <a href="mailto:shreyyaaa369@gmail.com"
-                  className="text-sm text-[#a1a1a1] hover:text-white transition-colors">
+                  className="text-[13px] text-[#a1a1a1] transition-colors hover:text-white">
                   shreyyaaa369@gmail.com
                 </a>
               </li>
               <li>
                 <button onClick={() => navigate('contact')}
-                  className="text-sm text-indigo-400 hover:text-indigo-300 transition-colors">
+                  className="text-[13px] text-indigo-400 transition-colors hover:text-indigo-300">
                   Let's Connect →
                 </button>
               </li>
             </ul>
           </div>
-        </div>
-
-        <div className="border-t border-white/10 pt-6 text-center text-xs text-[#a1a1a1]">
-          © {new Date().getFullYear()} Shreya. All rights reserved.
         </div>
       </div>
     </footer>

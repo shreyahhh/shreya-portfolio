@@ -4,14 +4,15 @@ const About = () => {
   return (
     <motion.section
       id="about"
-      className="section bg-[#0a0a0a] text-[#ededed]"
+      className="section bg-[#060606] text-[#ededed]"
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.7 }}
     >
       <motion.h2
-        className="text-3xl font-semibold mb-6 text-[#ededed] text-center"
+        className="mb-6 text-center font-semibold text-[#ededed]"
+        style={{ fontSize: 'clamp(28px, 4vw, 32px)' }}
         initial={{ opacity: 0, scale: 0.95 }}
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true }}
@@ -46,7 +47,7 @@ const About = () => {
                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                 </svg>
               </span>
-              <span className="font-semibold text-[#ededed]">CGPA:</span> <span className="text-[#a1a1a1]">8.80</span>
+              <span className="font-semibold text-[#ededed]">CGPA:</span> <span className="text-[#a1a1a1]">8.58</span>
             </div>
             
             <div className="flex items-center bg-white/5 border border-white/10 px-4 py-2 rounded-full">

@@ -557,7 +557,7 @@ const TypewriterIntro = () => {
 
 const Hero = () => {
   return (
-    <section className="min-h-screen flex items-center justify-center bg-[#0a0a0a] pt-20" id="hero">
+    <section className="flex min-h-screen items-center justify-center bg-[#060606] pt-20" id="hero">
       <div className="container mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
         {/* Left: Text Content */}
         <div className="flex-1 flex flex-col justify-center md:items-start items-center text-left">
@@ -572,7 +572,7 @@ const Hero = () => {
           </p>
           <div className="flex gap-4 mt-2">
             <a 
-              href="https://drive.google.com/file/d/1Ra6JNYZAlCX9SH5oXi_cdeMR5G03JdJR/view?usp=sharing" 
+              href="https://drive.google.com/file/d/1OgplMsVuovtLxsdZKzXAOrVxCq9QTQZV/view?usp=sharing" 
               target="_blank" 
               rel="noopener noreferrer"
               className="px-6 py-3 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-400 hover:to-purple-400 text-white font-semibold shadow-lg hover:shadow-xl transition-all text-base"

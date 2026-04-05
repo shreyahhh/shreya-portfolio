@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Sacramento&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bungee&family=Caveat:wght@400;600&family=Inter:wght@300;400;500;600;700&family=Sacramento&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -20,8 +20,16 @@ html {
 
 /* Dark mode only - Neurazor color scheme */
 :root {
-  --color-bg-base: #0a0a0a;
+  --color-bg-base: #060606;
   --color-surface: #111111;
+  /* Typography scale (px; use with arbitrary Tailwind or inline styles) */
+  --fs-section-label: 11px;
+  --fs-body: 14px;
+  --fs-card-meta: 13px;
+  --fs-bullet: 13px;
+  --fs-card-title: 17px;
+  --fs-section-heading: clamp(28px, 4vw, 32px);
+  --fs-hero-page: clamp(48px, 5vw, 52px);
   --color-text-primary: #ededed;
   --color-text-secondary: #a1a1a1;
   color-scheme: dark;
@@ -67,6 +75,59 @@ html, body {
 }
 
 @layer components {
+  /* Home hero “Shreya” — original display scale (px/vw so it ignores root font-size zoom) */
+  .home-shreya-heading {
+    font-size: clamp(72px, 22.5vw, 360px);
+    margin-left: -0.03em;
+  }
+
+  /* Home hero: Bungee hover without reflow — base keeps width; fx is position:absolute */
+  .home-name-slot {
+    position: relative;
+    display: inline-block;
+    cursor: default;
+    vertical-align: baseline;
+  }
+  /* Default: inherits h1 (Inter, heavy white). Hover: filled red Bungee via .home-name-fx */
+  .home-name-base {
+    visibility: visible;
+  }
+  .home-name-slot--active .home-name-base {
+    visibility: hidden;
+  }
+  .home-name-fx {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    white-space: nowrap;
+    font-family: 'Bungee', cursive;
+    font-weight: 400;
+    color: #e5252a;
+    text-shadow:
+      2px 3px 0 #060606,
+      3px 5px 0 #000,
+      4px 7px 0 rgba(0, 0, 0, 0.55);
+    transition: opacity 0.22s ease-out;
+  }
+  .home-name-slot--active .home-name-fx {
+    opacity: 1;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .home-name-fx {
+      transition: opacity 0.15s ease-out;
+    }
+  }
+
+  /* Handwritten accent — same face as Contact hero (“A huge button…”) */
+  .catchy-script {
+    font-family: 'Caveat', cursive;
+    font-weight: 600;
+  }
+
   .container {
     @apply px-4 mx-auto max-w-7xl;
   }
@@ -93,5 +154,80 @@ html, body {
   }
   .skill-tag {
     @apply px-4 py-2 bg-white/5 border border-white/10 rounded-full text-sm font-medium m-1 inline-block;
+  }
+
+  /* Research papers — flat cards; vars support dark (default) + light preference */
+  .research-papers-section {
+    --color-background-primary: #111111;
+    --color-text-primary: #ededed;
+    --color-text-secondary: #8a8a8a;
+    --color-border-tertiary: rgba(255, 255, 255, 0.1);
+    --color-border-primary: rgba(255, 255, 255, 0.32);
+    --color-research-link: #b8860b;
+  }
+
+  @media (prefers-color-scheme: light) {
+    .research-papers-section {
+      --color-background-primary: #f4f4f5;
+      --color-text-primary: #141414;
+      --color-text-secondary: #5c5c5c;
+      --color-border-tertiary: rgba(0, 0, 0, 0.1);
+      --color-border-primary: rgba(0, 0, 0, 0.26);
+    }
+  }
+
+  .research-paper-card {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    min-height: 8.5rem;
+    overflow: hidden;
+    background: var(--color-background-primary);
+    border: 1px solid var(--color-border-tertiary);
+    border-radius: 12px;
+    text-decoration: none;
+    transition: border-color 0.35s cubic-bezier(0.22, 0.61, 0.36, 1);
+    color: inherit;
+  }
+
+  .research-paper-card:hover {
+    border-color: var(--color-border-primary);
+  }
+
+  .research-paper-card__cover-wrap {
+    width: 130px;
+    flex-shrink: 0;
+    overflow: hidden;
+    border-radius: 12px 0 0 12px;
+    background: #0d0d0d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .research-paper-card__cover {
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-height: 100%;
+    object-fit: contain;
+    transition: transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1);
+    transform-origin: center bottom;
+  }
+
+  .research-paper-card:hover .research-paper-card__cover {
+    transform: translateY(-10px) scale(1.04);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .research-paper-card__cover {
+      transition: none;
+    }
+    .research-paper-card:hover .research-paper-card__cover {
+      transform: none;
+    }
+    .research-paper-card {
+      transition: border-color 0.15s ease;
+    }
   }
 }

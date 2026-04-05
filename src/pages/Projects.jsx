@@ -103,13 +103,13 @@ function DeployedCard({ p, idx }) {
 
   return (
     <motion.div
-      className="bg-[#111] border border-white/10 rounded-2xl overflow-hidden hover:border-white/20 transition-all duration-300 cursor-pointer group flex flex-col"
+      className="bg-[#111] border border-white/10 rounded-2xl overflow-hidden hover:border-white/20 transition-all duration-300 cursor-pointer flex flex-col"
       initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
       transition={{ duration: 0.4, delay: idx * 0.07 }}
       onClick={() => window.open(p.url, '_blank', 'noopener,noreferrer')}
     >
       {/* Preview */}
-      <div className="relative h-52 bg-[#0d0d0d] flex-shrink-0">
+      <div className="relative h-56 sm:h-64 md:h-72 bg-[#0d0d0d] flex-shrink-0">
         {!blocked ? (
           <>
             <iframe
@@ -122,25 +122,22 @@ function DeployedCard({ p, idx }) {
             {loading && (
               <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#0d0d0d]">
                 <div className="w-8 h-8 border-2 border-white/10 border-t-indigo-500 rounded-full animate-spin mb-2" />
-                <p className="text-xs text-[#a1a1a1]">Loading…</p>
+                <p className="text-[11px] text-[#a1a1a1]">Loading…</p>
               </div>
             )}
           </>
         ) : (
           <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-6">
             <span className="text-4xl mb-3">🚀</span>
-            <p className="text-xs text-[#a1a1a1]">Click to open live site</p>
+            <p className="text-[11px] text-[#a1a1a1]">Click to open site</p>
           </div>
         )}
-        <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
-          <span className="text-xs text-white border border-white/20 bg-white/10 px-4 py-2 rounded-lg">Open live ↗</span>
-        </div>
       </div>
 
       {/* Info */}
-      <div className="p-5 flex flex-col gap-3 flex-1">
+      <div className="flex flex-1 flex-col gap-3 p-6 md:p-7">
         <div className="flex items-start justify-between gap-2">
-          <h3 className="text-sm font-semibold text-white leading-snug">{p.title}</h3>
+          <h3 className="text-[17px] font-semibold leading-snug text-white">{p.title}</h3>
           <div className="flex gap-1.5 flex-shrink-0" onClick={(e) => e.stopPropagation()}>
             <a href={p.url} target="_blank" rel="noopener noreferrer"
               className="w-7 h-7 flex items-center justify-center rounded-lg bg-white/5 border border-white/10 text-indigo-400 hover:bg-white/10 transition-all">
@@ -154,10 +151,10 @@ function DeployedCard({ p, idx }) {
         </div>
         <div className="flex flex-wrap gap-1.5">
           {p.tags.map((t) => (
-            <span key={t} className="text-xs bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 px-2.5 py-0.5 rounded-full">{t}</span>
+            <span key={t} className="rounded-full border border-indigo-500/20 bg-indigo-500/10 px-2.5 py-0.5 text-[13px] text-indigo-400">{t}</span>
           ))}
         </div>
-        <p className="text-xs text-[#a1a1a1] leading-relaxed">{p.desc}</p>
+        <p className="text-[14px] leading-relaxed text-[#a1a1a1]">{p.desc}</p>
       </div>
     </motion.div>
   )
@@ -165,23 +162,23 @@ function DeployedCard({ p, idx }) {
 
 export default function Projects() {
   return (
-    <div className="pt-16">
-      <div className="max-w-6xl mx-auto px-6">
+    <div className="w-full min-w-0 bg-[#060606] pt-16">
+      <div className="mx-auto w-full max-w-[1200px] box-border px-[80px]">
 
         {/* Page header */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
           className="py-16 border-b border-white/10 mb-14">
-          <p className="text-xs font-semibold uppercase tracking-widest text-indigo-400 mb-3">Portfolio</p>
-          <h1 className="text-5xl md:text-6xl font-bold text-white">Projects</h1>
-          <p className="mt-4 text-[#a1a1a1] max-w-xl">Research work, deployed apps, and everything in between.</p>
+          <p className="mb-3 font-mono text-[11px] font-semibold uppercase tracking-[0.15em] text-indigo-400">Portfolio</p>
+          <h1 className="font-bold text-white" style={{ fontSize: 'clamp(48px, 5vw, 52px)', lineHeight: 1.1 }}>Projects</h1>
+          <p className="mt-4 max-w-xl text-[14px] leading-relaxed text-[#a1a1a1]">Research work, deployed apps, and everything in between.</p>
         </motion.div>
 
         {/* Category 1: Research */}
         <section className="mb-16">
           <motion.div initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }}
             className="mb-8">
-            <p className="text-xs font-semibold uppercase tracking-widest text-indigo-400 mb-1">Category 01</p>
-            <h2 className="text-2xl font-bold text-white">Research &amp; Academic</h2>
+            <p className="mb-1 font-mono text-[11px] font-semibold uppercase tracking-[0.15em] text-indigo-400">Category 01</p>
+            <h2 className="font-bold text-white" style={{ fontSize: 'clamp(28px, 4vw, 32px)', lineHeight: 1.2 }}>Research &amp; Academic</h2>
           </motion.div>
 
           <div className="grid md:grid-cols-2 gap-5">
@@ -195,17 +192,17 @@ export default function Projects() {
                 </div>
                 <div className="p-5">
                   <div className="flex items-center justify-between mb-2">
-                    <h3 className="text-sm font-semibold text-white">{p.title}</h3>
-                    <span className="text-xs text-[#a1a1a1] bg-white/5 border border-white/10 px-2.5 py-0.5 rounded-full flex-shrink-0 ml-2">{p.year}</span>
+                    <h3 className="text-[17px] font-semibold leading-snug text-white">{p.title}</h3>
+                    <span className="ml-2 flex-shrink-0 rounded-full border border-white/10 bg-white/5 px-2.5 py-0.5 text-[13px] text-[#a1a1a1]">{p.year}</span>
                   </div>
-                  <div className="flex flex-wrap gap-1.5 mb-3">
+                  <div className="mb-3 flex flex-wrap gap-1.5">
                     {p.tags.map((t) => (
-                      <span key={t} className="text-xs text-[#a1a1a1] bg-white/5 border border-white/10 px-2.5 py-0.5 rounded-full">{t}</span>
+                      <span key={t} className="rounded-full border border-white/10 bg-white/5 px-2.5 py-0.5 text-[13px] text-[#a1a1a1]">{t}</span>
                     ))}
                   </div>
-                  <p className="text-xs text-[#a1a1a1] leading-relaxed mb-3">{p.desc}</p>
+                  <p className="mb-3 text-[14px] leading-relaxed text-[#a1a1a1]">{p.desc}</p>
                   <a href={p.github} target="_blank" rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 text-xs text-indigo-400 hover:text-indigo-300 transition-colors font-medium">
+                    className="inline-flex items-center gap-1.5 text-[13px] font-medium text-indigo-400 transition-colors hover:text-indigo-300">
                     <GHIcon /> View on GitHub
                   </a>
                 </div>
@@ -218,11 +215,11 @@ export default function Projects() {
         <section className="pb-20">
           <motion.div initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }}
             className="mb-8">
-            <p className="text-xs font-semibold uppercase tracking-widest text-indigo-400 mb-1">Category 02</p>
-            <h2 className="text-2xl font-bold text-white">Deployed Applications</h2>
+            <p className="mb-1 font-mono text-[11px] font-semibold uppercase tracking-[0.15em] text-indigo-400">Category 02</p>
+            <h2 className="font-bold text-white" style={{ fontSize: 'clamp(28px, 4vw, 32px)', lineHeight: 1.2 }}>Deployed Applications</h2>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
             {DEPLOYED.map((p, i) => (
               <DeployedCard key={p.title} p={p} idx={i} />
             ))}

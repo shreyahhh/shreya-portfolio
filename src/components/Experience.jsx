@@ -29,7 +29,7 @@ const Experience = () => {
   return (
     <motion.section
       id="experience"
-      className="section bg-[#0a0a0a] text-[#ededed]"
+      className="section bg-[#060606] text-[#ededed]"
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}

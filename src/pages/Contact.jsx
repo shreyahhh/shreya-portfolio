@@ -1,140 +1,797 @@
+import confetti from 'canvas-confetti/dist/confetti.module.mjs'
+import emailjs from '@emailjs/browser'
 import { motion } from 'framer-motion'
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
+import smileyBundled from '../assets/smiley.png'
+import ContactConnectLayoutGrid from '../components/ContactConnectLayoutGrid'
 
-const SOCIALS = [
+const MONO = 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace'
+const CALENDLY_URL = 'https://calendly.com/shreyyaaa369'
+
+const SERVICE_ID = String(import.meta.env.VITE_EMAILJS_SERVICE_ID ?? '').trim()
+const TEMPLATE_ID = String(import.meta.env.VITE_EMAILJS_TEMPLATE_ID ?? '').trim()
+const PUBLIC_KEY = String(import.meta.env.VITE_EMAILJS_PUBLIC_KEY ?? '').trim()
+
+/** Public fallback if bundled asset fails; handles subpath deploys */
+function smileyPublicPath() {
+  const base = import.meta.env.BASE_URL || '/'
+  if (base === '/' || base === '') return '/smiley.png'
+  return `${String(base).replace(/\/$/, '')}/smiley.png`
+}
+
+const CONFETTI_COLORS = ['#ffd93d', '#eab308', '#facc15', '#fef08a', '#ffffff', '#a78bfa', '#818cf8']
+
+function shootTopConfetti(fire) {
+  if (!fire) return
+  if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    return
+  }
+  const x = 0.15 + Math.random() * 0.7
+  void fire({
+    particleCount: 90,
+    spread: 110,
+    startVelocity: 28,
+    gravity: 1.05,
+    drift: 0,
+    ticks: 380,
+    scalar: 0.95,
+    origin: { x, y: 0 },
+    colors: CONFETTI_COLORS,
+  })
+}
+
+function ConnectHero() {
+  const [hovered, setHovered] = useState(false)
+  const canvasRef = useRef(null)
+  const confettiFireRef = useRef(null)
+
+  useLayoutEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return undefined
+    try {
+      confettiFireRef.current = confetti.create(canvas, { resize: true, useWorker: false })
+    } catch {
+      confettiFireRef.current = null
+    }
+    return () => {
+      confettiFireRef.current?.reset?.()
+      confettiFireRef.current = null
+    }
+  }, [])
+
+  useEffect(() => {
+    if (!hovered) return undefined
+    const fire = confettiFireRef.current
+    if (!fire) return undefined
+    shootTopConfetti(fire)
+    const id = window.setInterval(() => shootTopConfetti(fire), 520)
+    return () => window.clearInterval(id)
+  }, [hovered])
+
+  return (
+    <div className="relative z-40 h-[calc(100vh-5rem)] min-h-[calc(100vh-5rem)] w-full overflow-x-visible bg-[#060606] px-4 py-12 sm:px-8">
+      <canvas
+        ref={canvasRef}
+        className="pointer-events-none absolute inset-0 z-0 block h-full w-full"
+        aria-hidden
+      />
+      <div className="relative z-10 flex h-full min-h-0 w-full flex-col items-center justify-center">
+        <motion.p
+          className="catchy-script relative z-10 mb-10 max-w-2xl px-2 text-center leading-snug text-[#a8a8a8]"
+          style={{ fontSize: 'clamp(1.35rem, 3.5vw, 2.25rem)' }}
+          animate={{ opacity: hovered ? 0.85 : 1, y: hovered ? -4 : 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          A huge button for a huge impact
+        </motion.p>
+
+        <motion.div
+          className="pointer-events-none absolute z-[2] rounded-full"
+          style={{
+            width: 500,
+            height: 300,
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -44%)',
+          }}
+          animate={{
+            background: hovered
+              ? 'radial-gradient(ellipse at center, rgba(234,179,8,0.35) 0%, rgba(234,179,8,0.12) 45%, transparent 72%)'
+              : 'radial-gradient(ellipse at center, rgba(255,255,255,0.04) 0%, transparent 70%)',
+          }}
+          transition={{ duration: 0.5, ease: 'easeOut' }}
+        />
+
+        <div
+          className="relative z-10 inline-flex flex-col items-center px-2"
+          onMouseEnter={() => setHovered(true)}
+          onMouseLeave={() => setHovered(false)}
+        >
+          <motion.a
+            href="mailto:shreyyaaa369@gmail.com"
+            className="cursor-pointer select-none"
+            animate={{ scale: hovered ? 1.04 : 1 }}
+            transition={{ duration: 0.35, ease: 'easeOut' }}
+            whileTap={{ scale: 0.97 }}
+          >
+            <motion.div
+              className="relative px-20 py-8 md:px-28 md:py-10"
+              style={{ borderRadius: 9999 }}
+              animate={{
+                background: hovered
+                  ? 'linear-gradient(160deg, #7a6a1a 0%, #4a4010 40%, #2a2408 100%)'
+                  : 'linear-gradient(160deg, #2c2c2c 0%, #1a1a1a 40%, #0d0d0d 100%)',
+                boxShadow: hovered
+                  ? '0 0 0 1px rgba(255,220,50,0.12), 0 0 32px rgba(234,179,8,0.45), 0 0 64px rgba(234,179,8,0.2), 0 0 96px rgba(234,179,8,0.08), inset 0 1px 0 rgba(255,220,50,0.15)'
+                  : '0 0 0 1px rgba(255,255,255,0.06), 0 0 28px rgba(0,0,0,0.55), 0 0 56px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.06)',
+              }}
+              transition={{ duration: 0.4, ease: 'easeOut' }}
+            >
+              <motion.span
+                className="relative z-10 font-bold leading-none tracking-tight"
+                style={{ fontSize: 'clamp(48px, 5vw, 52px)' }}
+                animate={{ color: hovered ? '#e8c832' : '#ffffff' }}
+                transition={{ duration: 0.35 }}
+              >
+                Connect
+              </motion.span>
+            </motion.div>
+          </motion.a>
+
+          <div
+            className={`pointer-events-none absolute left-1/2 top-full z-30 mt-4 w-max -translate-x-1/2 transition-opacity duration-300 ease-out md:mt-5 ${
+              hovered ? 'opacity-100' : 'opacity-0'
+            }`}
+            aria-hidden
+          >
+            <img
+              src={smileyBundled}
+              alt=""
+              width={120}
+              height={120}
+              className="h-[100px] w-[100px] object-contain [image-rendering:pixelated] sm:h-[112px] sm:w-[112px] md:h-[120px] md:w-[120px]"
+              draggable={false}
+              onError={(e) => {
+                e.currentTarget.onerror = null
+                e.currentTarget.src = smileyPublicPath()
+              }}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+const inputStyle = {
+  width: '100%',
+  boxSizing: 'border-box',
+  background: '#181818',
+  border: '1px solid rgba(255,255,255,0.07)',
+  borderRadius: 8,
+  padding: '11px 13px',
+  fontSize: 14,
+  color: '#fff',
+  outline: 'none',
+  fontFamily: 'inherit',
+}
+
+function SendArrow() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14M13 6l6 6-6 6" />
+    </svg>
+  )
+}
+
+function CheckIcon() {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6366f1" strokeWidth="2.2" aria-hidden>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+    </svg>
+  )
+}
+
+function ConnectFormSection() {
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [subject, setSubject] = useState('')
+  const [message, setMessage] = useState('')
+  const [sent, setSent] = useState(false)
+  const [sending, setSending] = useState(false)
+  const [error, setError] = useState(null)
+
+  const configured = Boolean(SERVICE_ID && TEMPLATE_ID && PUBLIC_KEY)
+
+  useEffect(() => {
+    if (!PUBLIC_KEY) return
+    try {
+      emailjs.init({ publicKey: PUBLIC_KEY })
+    } catch {
+      /* ignore */
+    }
+  }, [])
+
+  const handleSubmit = useCallback(
+    async (e) => {
+      e.preventDefault()
+      setError(null)
+      if (!configured) {
+        setError(
+          'Add VITE_EMAILJS_SERVICE_ID, VITE_EMAILJS_TEMPLATE_ID, and VITE_EMAILJS_PUBLIC_KEY to .env, save, and restart the dev server.'
+        )
+        return
+      }
+      const form = e.currentTarget
+      const readField = (fieldName) => {
+        const el = form.elements.namedItem(fieldName)
+        if (el && 'value' in el) return String(el.value).trim()
+        return ''
+      }
+      const fromName = readField('from_name') || name.trim()
+      const fromEmail = readField('from_email') || email.trim()
+      const subjectLine = readField('subject') || subject.trim()
+      const body = readField('message') || message.trim()
+      if (!fromName || !fromEmail || !subjectLine || !body) {
+        setError('Please fill in all fields before sending.')
+        return
+      }
+      setSending(true)
+      try {
+        await emailjs.send(
+          SERVICE_ID,
+          TEMPLATE_ID,
+          {
+            from_name: fromName,
+            from_email: fromEmail,
+            subject: subjectLine,
+            message: body,
+          },
+          PUBLIC_KEY
+        )
+        setSent(true)
+      } catch (err) {
+        const msg =
+          err?.text ||
+          err?.message ||
+          (typeof err === 'string' ? err : null) ||
+          'Something went wrong. Please try again.'
+        setError(msg)
+      } finally {
+        setSending(false)
+      }
+    },
+    [name, email, subject, message, configured]
+  )
+
+  return (
+    <section style={{ padding: '72px 0 0' }}>
+      <header style={{ textAlign: 'left', marginBottom: 48 }}>
+        <p
+          style={{
+            margin: 0,
+            fontSize: 11,
+            textTransform: 'uppercase',
+            color: '#6366f1',
+            fontFamily: MONO,
+            letterSpacing: '0.15em',
+          }}
+        >
+          LET&apos;S CONNECT
+        </p>
+        <h1
+          style={{
+            margin: '12px 0 0',
+            fontSize: 'clamp(28px, 4vw, 32px)',
+            fontWeight: 700,
+            color: '#fff',
+            lineHeight: 1.2,
+            fontFamily: 'inherit',
+          }}
+        >
+          <span style={{ display: 'block' }}>Let&apos;s talk about</span>
+          <span style={{ display: 'block' }}>
+            <span style={{ color: 'rgba(255,255,255,0.55)' }}>everything</span>
+            <span style={{ color: '#fff' }}> and nothing.</span>
+          </span>
+        </h1>
+        <p
+          style={{
+            margin: '16px 0 0',
+            fontSize: 14,
+            color: 'rgba(255,255,255,0.35)',
+            maxWidth: 480,
+            lineHeight: 1.5,
+          }}
+        >
+          Whether it&apos;s a project, an opportunity, or just a good conversation — my inbox is always open.
+        </p>
+      </header>
+
+      <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:items-stretch lg:gap-8">
+        <div
+          className="flex h-full min-h-0 min-w-0 flex-col"
+          style={{
+            border: '1px solid rgba(255,255,255,0.08)',
+            borderRadius: 20,
+            overflow: 'hidden',
+            background: '#060606',
+          }}
+        >
+          {/* Top bar */}
+          <div
+            style={{
+              background: '#060606',
+              padding: '20px 28px',
+              borderBottom: '1px solid rgba(255,255,255,0.06)',
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'flex-start',
+              flexShrink: 0,
+            }}
+          >
+            <div>
+              <div
+                style={{
+                  fontSize: 11,
+                  fontFamily: MONO,
+                  textTransform: 'uppercase',
+                  color: 'rgba(255,255,255,0.25)',
+                  letterSpacing: '0.1em',
+                }}
+              >
+                NEW MESSAGE
+              </div>
+              <div style={{ marginTop: 4, fontSize: 14, fontWeight: 600, color: '#fff' }}>Shreya</div>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'row', gap: 5, alignItems: 'center' }}>
+              <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#ff5f57' }} aria-hidden />
+              <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#febc2e' }} aria-hidden />
+              <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#28c840' }} aria-hidden />
+            </div>
+          </div>
+
+          {/* Form body or success */}
+          <div
+            style={{
+              flex: 1,
+              minHeight: 0,
+              background: '#060606',
+              padding: '24px 28px',
+              display: 'flex',
+              flexDirection: 'column',
+            }}
+          >
+            {!sent ? (
+              <form
+                onSubmit={handleSubmit}
+                noValidate
+                className="flex min-h-0 flex-1 flex-col"
+                style={{ minHeight: 0 }}
+              >
+                <div
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: '1fr 1fr',
+                    gap: 10,
+                    marginBottom: 10,
+                  }}
+                >
+                  <input
+                    type="text"
+                    name="from_name"
+                    autoComplete="name"
+                    placeholder="Name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    onInput={(e) => setName(e.currentTarget.value)}
+                    style={inputStyle}
+                  />
+                  <input
+                    type="email"
+                    name="from_email"
+                    autoComplete="email"
+                    placeholder="Email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    onInput={(e) => setEmail(e.currentTarget.value)}
+                    style={inputStyle}
+                  />
+                </div>
+                <input
+                  type="text"
+                  name="subject"
+                  placeholder="Subject"
+                  value={subject}
+                  onChange={(e) => setSubject(e.target.value)}
+                  onInput={(e) => setSubject(e.currentTarget.value)}
+                  style={{ ...inputStyle, marginBottom: 10 }}
+                />
+                <textarea
+                  name="message"
+                  placeholder="Tell me about your project or just say hi..."
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  onInput={(e) => setMessage(e.currentTarget.value)}
+                  rows={3}
+                  style={{
+                    ...inputStyle,
+                    height: 90,
+                    minHeight: 90,
+                    resize: 'vertical',
+                    marginBottom: 16,
+                  }}
+                />
+                {error && (
+                  <p style={{ margin: '0 0 12px', fontSize: 13, color: '#f87171' }} role="alert">
+                    {error}
+                  </p>
+                )}
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'flex-end',
+                    alignItems: 'center',
+                    marginTop: 'auto',
+                    paddingTop: 8,
+                  }}
+                >
+                  <button
+                    type="submit"
+                    disabled={sending}
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: 8,
+                      background: '#6366f1',
+                      border: 'none',
+                      borderRadius: 8,
+                      padding: '10px 20px',
+                      fontSize: 13,
+                      fontWeight: 600,
+                      color: '#fff',
+                      cursor: sending ? 'wait' : 'pointer',
+                      fontFamily: 'inherit',
+                      opacity: sending ? 0.85 : 1,
+                    }}
+                  >
+                    {sending ? 'Sending…' : 'Send'}
+                    {!sending && <SendArrow />}
+                  </button>
+                </div>
+              </form>
+            ) : (
+              <div style={{ textAlign: 'center', padding: '8px 0 4px' }}>
+                <div
+                  style={{
+                    width: 48,
+                    height: 48,
+                    margin: '0 auto',
+                    borderRadius: '50%',
+                    border: '1px solid rgba(99,102,241,0.3)',
+                    background: 'rgba(99,102,241,0.08)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <CheckIcon />
+                </div>
+                <p style={{ margin: '16px 0 0', fontSize: 17, fontWeight: 700, color: '#fff' }}>Message received!</p>
+                <p style={{ margin: '8px 0 0', fontSize: 14, color: 'rgba(255,255,255,0.35)', lineHeight: 1.5 }}>
+                  Thanks for reaching out. I&apos;ll get back to you soon.
+                </p>
+              </div>
+            )}
+          </div>
+
+          {/* Status bar */}
+          <div
+            style={{
+              background: '#060606',
+              padding: '10px 28px',
+              borderTop: '1px solid rgba(255,255,255,0.06)',
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: 7,
+              flexShrink: 0,
+            }}
+          >
+            <span
+              className="contact-pulse-dot"
+              style={{
+                width: 6,
+                height: 6,
+                borderRadius: '50%',
+                background: '#22c55e',
+                flexShrink: 0,
+              }}
+              aria-hidden
+            />
+            <span style={{ fontSize: 11, fontFamily: MONO, color: 'rgba(255,255,255,0.25)' }}>
+              Available for new opportunities · Replies within 24h
+            </span>
+          </div>
+        </div>
+        <div className="flex min-h-0 min-w-0 flex-col lg:h-full">
+          <BookMeetingPanel />
+        </div>
+      </div>
+    </section>
+  )
+}
+
+const BOOK_MEETING_ROWS = [
   {
-    name: 'LinkedIn', handle: 'linkedin.com/in/shreya-analyst', url: 'https://www.linkedin.com/in/shreya-analyst/',
-    desc: 'Professional network & career updates',
-    icon: <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" className="w-6 h-6"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>,
-    color: 'indigo',
+    text: (
+      <>
+        <span style={{ color: 'rgba(255,255,255,0.6)' }}>Duration · </span>
+        <span style={{ color: '#fff', fontWeight: 500 }}>30 minutes</span>
+      </>
+    ),
   },
   {
-    name: 'GitHub', handle: 'github.com/shreyahhh', url: 'https://github.com/shreyahhh',
-    desc: 'Open source projects & code',
-    icon: <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" className="w-6 h-6"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.416-4.042-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.84 1.236 1.84 1.236 1.07 1.834 2.809 1.304 3.495.997.108-.775.418-1.305.762-1.605-2.665-.305-5.466-1.334-5.466-5.93 0-1.31.469-2.381 1.236-3.221-.124-.303-.535-1.523.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.553 3.297-1.23 3.297-1.23.653 1.653.242 2.873.118 3.176.77.84 1.234 1.911 1.234 3.221 0 4.609-2.803 5.624-5.475 5.921.43.371.823 1.102.823 2.222 0 1.606-.014 2.898-.014 3.293 0 .322.218.694.825.576 4.765-1.584 8.199-6.081 8.199-11.384 0-6.627-5.373-12-12-12z"/></svg>,
-    color: 'purple',
+    text: (
+      <>
+        <span style={{ color: 'rgba(255,255,255,0.6)' }}>Where · </span>
+        <span style={{ color: '#fff', fontWeight: 500 }}>Google Meet · link sent on confirm</span>
+      </>
+    ),
   },
   {
-    name: 'LeetCode', handle: 'leetcode.com/u/shreyahhh_', url: 'https://leetcode.com/u/shreyahhh_/',
-    desc: 'DSA & competitive programming',
-    icon: <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" className="w-6 h-6"><path d="M16.102 17.93l-2.697 2.607c-.466.467-1.111.662-1.823.662s-1.357-.195-1.824-.662l-4.332-4.363c-.467-.467-.702-1.15-.702-1.863s.235-1.357.702-1.824l4.319-4.38c.467-.467 1.125-.645 1.837-.645s1.357.195 1.823.662l2.697 2.606c.514.515 1.365.497 1.9-.038.535-.536.553-1.387.039-1.901l-2.609-2.636a5.055 5.055 0 0 0-2.445-1.337l2.467-2.503c.516-.514.498-1.366-.037-1.901-.535-.535-1.387-.552-1.902-.038l-10.1 10.101c-.981.982-1.494 2.337-1.494 3.835 0 1.498.513 2.895 1.494 3.875l4.347 4.361c.981.979 2.337 1.452 3.834 1.452s2.853-.512 3.835-1.494l2.609-2.637c.514-.514.496-1.365-.039-1.9s-1.386-.553-1.899-.039zM20.811 13.01H10.666c-.702 0-1.27.604-1.27 1.346s.568 1.346 1.27 1.346h10.145c.701 0 1.27-.604 1.27-1.346s-.569-1.346-1.27-1.346z"/></svg>,
-    color: 'indigo',
-  },
-  {
-    name: 'Unstop', handle: 'unstop.com/u/shreyamr4373', url: 'https://unstop.com/u/shreyamr4373',
-    desc: 'Hackathons & competitions',
-    icon: <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" className="w-6 h-6"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-7 18c-3.314 0-6-2.686-6-6s2.686-6 6-6 6 2.686 6 6-2.686 6-6 6z"/></svg>,
-    color: 'purple',
+    text: (
+      <>
+        <span style={{ color: 'rgba(255,255,255,0.6)' }}>Timezone · </span>
+        <span style={{ color: '#fff', fontWeight: 500 }}>IST · India Standard Time</span>
+      </>
+    ),
   },
 ]
 
-export default function Contact() {
+function BookMeetingPanel() {
   return (
-    <div className="pt-16">
-      <div className="max-w-6xl mx-auto px-6">
-
-        {/* Page header */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
-          className="py-16 border-b border-white/10 mb-14">
-          <p className="text-xs font-semibold uppercase tracking-widest text-indigo-400 mb-3">Get in Touch</p>
-          <h1 className="text-5xl md:text-6xl font-bold text-white">Let's Connect</h1>
-          <p className="mt-4 text-[#a1a1a1] max-w-xl text-lg leading-relaxed">
-            Open to opportunities, collabs, or just a good conversation. Reach out however feels easiest.
-          </p>
-        </motion.div>
-
-        {/* Direct contact cards */}
-        <section className="mb-14">
-          <motion.div initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }}
-            className="mb-8">
-            <p className="text-xs font-semibold uppercase tracking-widest text-indigo-400 mb-1">Direct</p>
-            <h2 className="text-2xl font-bold text-white">Reach Out</h2>
-          </motion.div>
-
-          <div className="grid md:grid-cols-3 gap-4">
-            {/* Email */}
-            <motion.a href="mailto:shreyyaaa369@gmail.com"
-              className="group bg-[#111] border border-white/10 rounded-2xl p-6 hover:border-indigo-400/40 hover:bg-indigo-500/5 transition-all duration-300"
-              initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-              transition={{ duration: 0.4 }} whileHover={{ y: -4, transition: { duration: 0.2 } }}>
-              <div className="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 mb-4">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
-                </svg>
-              </div>
-              <p className="text-xs text-[#a1a1a1] uppercase tracking-wider mb-1">Email</p>
-              <p className="text-sm font-semibold text-white group-hover:text-indigo-400 transition-colors">shreyyaaa369@gmail.com</p>
-              <p className="text-xs text-[#a1a1a1] mt-1">Best for opportunities</p>
-            </motion.a>
-
-            {/* Phone */}
-            <motion.a href="tel:+919451954329"
-              className="group bg-[#111] border border-white/10 rounded-2xl p-6 hover:border-purple-400/40 hover:bg-purple-500/5 transition-all duration-300"
-              initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: 0.1 }} whileHover={{ y: -4, transition: { duration: 0.2 } }}>
-              <div className="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 mb-4">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
-                </svg>
-              </div>
-              <p className="text-xs text-[#a1a1a1] uppercase tracking-wider mb-1">Phone</p>
-              <p className="text-sm font-semibold text-white group-hover:text-purple-400 transition-colors">+91 9451954329</p>
-              <p className="text-xs text-[#a1a1a1] mt-1">Available on WhatsApp</p>
-            </motion.a>
-
-            {/* Calendly */}
-            <motion.a href="https://calendly.com/shreyyaaa369" target="_blank" rel="noopener noreferrer"
-              className="group bg-[#111] border border-white/10 rounded-2xl p-6 hover:border-indigo-400/40 hover:bg-indigo-500/5 transition-all duration-300"
-              initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: 0.2 }} whileHover={{ y: -4, transition: { duration: 0.2 } }}>
-              <div className="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 mb-4">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
-                </svg>
-              </div>
-              <p className="text-xs text-[#a1a1a1] uppercase tracking-wider mb-1">Schedule</p>
-              <p className="text-sm font-semibold text-white group-hover:text-indigo-400 transition-colors">Book a Meeting</p>
-              <p className="text-xs text-[#a1a1a1] mt-1">30-min chat via Calendly ↗</p>
-            </motion.a>
+    <div
+      className="flex h-full min-h-0 flex-1 flex-col"
+      style={{
+        border: '1px solid rgba(255,255,255,0.08)',
+        borderRadius: 20,
+        overflow: 'hidden',
+        background: '#060606',
+        boxSizing: 'border-box',
+      }}
+    >
+      <div
+        style={{
+          background: '#060606',
+          padding: '20px 28px',
+          borderBottom: '1px solid rgba(255,255,255,0.06)',
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'flex-start',
+          flexShrink: 0,
+        }}
+      >
+        <div>
+          <div
+            style={{
+              fontSize: 11,
+              fontFamily: MONO,
+              textTransform: 'uppercase',
+              color: 'rgba(255,255,255,0.25)',
+              letterSpacing: '0.1em',
+            }}
+          >
+            30-MIN CHAT
           </div>
-        </section>
+          <div style={{ marginTop: 4, fontSize: 14, fontWeight: 600, color: '#fff' }}>Let&apos;s talk</div>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'row', gap: 5, alignItems: 'center' }}>
+          <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#ff5f57' }} aria-hidden />
+          <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#febc2e' }} aria-hidden />
+          <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#28c840' }} aria-hidden />
+        </div>
+      </div>
 
-        {/* Social links */}
-        <section className="pb-20">
-          <motion.div initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }}
-            className="mb-8">
-            <p className="text-xs font-semibold uppercase tracking-widest text-indigo-400 mb-1">Socials</p>
-            <h2 className="text-2xl font-bold text-white">Find Me Online</h2>
-          </motion.div>
-
-          <div className="grid md:grid-cols-2 gap-4">
-            {SOCIALS.map((s, i) => (
-              <motion.a key={s.name} href={s.url} target="_blank" rel="noopener noreferrer"
-                className="group flex items-center gap-4 bg-[#111] border border-white/10 rounded-2xl p-5 hover:border-white/20 hover:bg-white/3 transition-all duration-300"
-                initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: i * 0.07 }}
-                whileHover={{ x: 5, transition: { duration: 0.2 } }}>
-                <div className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 ${
-                  s.color === 'indigo'
-                    ? 'bg-indigo-500/10 border border-indigo-500/20 text-indigo-400'
-                    : 'bg-purple-500/10 border border-purple-500/20 text-purple-400'
-                }`}>
-                  {s.icon}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-bold text-white">{s.name}</p>
-                  <p className="text-xs text-[#a1a1a1] truncate">{s.handle}</p>
-                  <p className="text-xs text-[#a1a1a1]/60 mt-0.5">{s.desc}</p>
-                </div>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"
-                  className="w-4 h-4 text-[#a1a1a1] group-hover:text-white group-hover:translate-x-1 transition-all flex-shrink-0">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+      <div
+        style={{
+          flex: 1,
+          minHeight: 0,
+          background: '#060606',
+          padding: '24px 28px',
+          display: 'flex',
+          flexDirection: 'column',
+        }}
+      >
+        <p style={{ margin: 0, fontSize: 14, color: 'rgba(255,255,255,0.35)', lineHeight: 1.6 }}>
+          Book a free 30-minute slot — we can walk through your idea, role, or anything you&apos;d like to align on.
+        </p>
+        <div style={{ marginTop: 20 }}>
+          {BOOK_MEETING_ROWS.map((row, idx) => (
+            <div
+              key={idx}
+              style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 12, marginBottom: 14 }}
+            >
+              <div
+                style={{
+                  width: 30,
+                  height: 30,
+                  flexShrink: 0,
+                  background: '#1a1a2e',
+                  border: '1px solid rgba(99,102,241,0.2)',
+                  borderRadius: 8,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a5b4fc" strokeWidth="2" aria-hidden>
+                  {idx === 0 && <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />}
+                  {idx === 1 && (
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"
+                    />
+                  )}
+                  {idx === 2 && (
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064" />
+                  )}
                 </svg>
-              </motion.a>
-            ))}
-          </div>
-        </section>
+              </div>
+              <div style={{ fontSize: 13, lineHeight: 1.4 }}>{row.text}</div>
+            </div>
+          ))}
+        </div>
+        <div style={{ marginTop: 'auto', paddingTop: 16 }}>
+          <a
+            href={CALENDLY_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: 'block',
+              width: '100%',
+              textAlign: 'center',
+              background: '#6366f1',
+              borderRadius: 10,
+              padding: 13,
+              fontSize: 14,
+              fontWeight: 600,
+              color: '#fff',
+              textDecoration: 'none',
+              boxSizing: 'border-box',
+            }}
+          >
+            Open Calendly ↗
+          </a>
+        </div>
+      </div>
 
+      <div
+        style={{
+          background: '#060606',
+          padding: '10px 28px',
+          borderTop: '1px solid rgba(255,255,255,0.06)',
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          gap: 7,
+          flexShrink: 0,
+        }}
+      >
+        <span
+          className="contact-pulse-dot"
+          style={{
+            width: 6,
+            height: 6,
+            borderRadius: '50%',
+            background: '#6366f1',
+            flexShrink: 0,
+          }}
+          aria-hidden
+        />
+        <span style={{ fontSize: 11, fontFamily: MONO, color: 'rgba(255,255,255,0.25)' }}>
+          Calendly · Pick a time that works for you
+        </span>
       </div>
     </div>
+  )
+}
+
+function FindMeOnlineSection() {
+  return (
+    <section style={{ padding: '52px 0 80px' }}>
+      <p
+        style={{
+          margin: 0,
+          fontSize: 11,
+          textTransform: 'uppercase',
+          color: '#6366f1',
+          fontFamily: MONO,
+          letterSpacing: '0.12em',
+        }}
+      >
+        SOCIALS
+      </p>
+      <h2 style={{ margin: '8px 0 28px', fontSize: 'clamp(28px, 4vw, 32px)', fontWeight: 700, color: '#fff' }}>
+        Find me online
+      </h2>
+      <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-12">
+        <div className="min-w-0">
+          <p
+            style={{
+              margin: 0,
+              fontSize: 14,
+              color: 'rgba(255,255,255,0.55)',
+              lineHeight: 1.35,
+            }}
+          >
+            Stalking welcome.{' '}
+            <span className="catchy-script inline font-normal" style={{ fontSize: '1.22em' }}>
+              (LinkedIn preferred.)
+            </span>
+          </p>
+          <p style={{ margin: '16px 0 20px', fontSize: 14, color: 'rgba(255,255,255,0.35)', lineHeight: 1.6 }}>
+            Follow my work, connect on LinkedIn, or check out what I&apos;ve been doing on GitHub.
+          </p>
+          <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+            <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#22c55e', flexShrink: 0 }} aria-hidden />
+            <span style={{ fontSize: 13, fontFamily: MONO, color: 'rgba(255,255,255,0.35)' }}>
+              Open to work · Greater Noida- Delhi
+            </span>
+          </div>
+        </div>
+        <div className="flex w-full justify-center lg:justify-end">
+          <ContactConnectLayoutGrid />
+        </div>
+      </div>
+    </section>
+  )
+}
+
+export default function Contact() {
+  return (
+    <>
+      <div className="w-full bg-[#060606] pt-16">
+        <ConnectHero />
+      </div>
+      <div className="border-t border-white/10 mx-6 bg-[#060606]" />
+
+      <div className="contact-page-scope" style={{ width: '100%', background: '#060606' }}>
+        <style>
+          {`
+          .contact-page-scope input::placeholder,
+          .contact-page-scope textarea::placeholder {
+            color: rgba(255,255,255,0.2);
+          }
+          .contact-page-scope input:focus,
+          .contact-page-scope textarea:focus {
+            border-color: rgba(99,102,241,0.45);
+          }
+          @keyframes contact-pulse-dot {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+          }
+          .contact-pulse-dot {
+            animation: contact-pulse-dot 2s ease-in-out infinite;
+          }
+        `}
+        </style>
+        <div
+          style={{
+            maxWidth: 1200,
+            margin: '0 auto',
+            padding: '0 80px',
+            boxSizing: 'border-box',
+          }}
+        >
+          <ConnectFormSection />
+          <FindMeOnlineSection />
+        </div>
+      </div>
+    </>
   )
 }

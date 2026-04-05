@@ -1,11 +1,11 @@
 import { motion } from 'framer-motion'
 
-const RESUME_URL = "https://drive.google.com/file/d/1Ra6JNYZAlCX9SH5oXi_cdeMR5G03JdJR/view?usp=sharing"
-const RESUME_EMBED = "https://drive.google.com/file/d/1Ra6JNYZAlCX9SH5oXi_cdeMR5G03JdJR/preview"
+const RESUME_URL = "https://drive.google.com/file/d/1OgplMsVuovtLxsdZKzXAOrVxCq9QTQZV/view?usp=sharing"
+const RESUME_EMBED = "https://drive.google.com/file/d/1OgplMsVuovtLxsdZKzXAOrVxCq9QTQZV/preview"
 
 const ResumePage = () => {
   return (
-    <div className="bg-[#0a0a0a] text-[#ededed] pt-20 pb-20">
+    <div className="bg-[#060606] text-[#ededed] pt-20 pb-20">
       <div className="max-w-6xl mx-auto px-6">
         {/* Page header */}
         <motion.div

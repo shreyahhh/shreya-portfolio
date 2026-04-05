@@ -47,9 +47,9 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-[#ededed]">
+    <div className="min-h-screen bg-[#060606] text-[#ededed]">
       <Header current={page} navigate={navigate} />
-      <main>{renderPage()}</main>
+      <main className="min-h-screen w-full bg-[#060606]">{renderPage()}</main>
       <Footer navigate={navigate} />
     </div>
   )

@@ -1,5 +1,22 @@
 import { motion } from 'framer-motion'
-import { useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import HomeAboutSlideshow from '../components/HomeAboutSlideshow'
+import HomeBelowAboutSections from '../components/HomeBelowAboutSections'
+
+/** Single active letter: greatest index i with clientX >= slot i's left (gap between i and i+1 → i). */
+function pickHeroNameLetterIndex(clientX, h1El) {
+  const slots = h1El.querySelectorAll('.home-name-slot')
+  if (!slots.length) return null
+  const rects = Array.from(slots, (el) => el.getBoundingClientRect())
+  const first = rects[0]
+  const last = rects[rects.length - 1]
+  if (clientX < first.left || clientX > last.right) return null
+  let idx = -1
+  for (let i = 0; i < rects.length; i++) {
+    if (clientX >= rects[i].left) idx = i
+  }
+  return idx >= 0 ? idx : null
+}
 
 // ── Screen Cat ────────────────────────────────────────────────────────────────
 // Walks slowly left→right, sleeps at edges, reacts to hover.
@@ -220,179 +237,111 @@ function ScreenCat({ nameRef }) {
   )
 }
 
-// ── Data ──────────────────────────────────────────────────────────────────────
-const SKILLS = [
-  { title: 'Languages',      skills: ['JavaScript', 'TypeScript', 'Python', 'Java', 'SQL', 'C++'] },
-  { title: 'Frontend',       skills: ['React.js', 'Next.js 14', 'Vue.js', 'Tailwind CSS', 'Shadcn/ui', 'Redux'] },
-  { title: 'Backend & APIs', skills: ['Node.js', 'Express.js', 'FastAPI', 'GraphQL', 'WebSockets', 'n8n'] },
-  { title: 'Databases',      skills: ['PostgreSQL', 'SQLite', 'Firebase', 'Supabase', 'Docker'] },
-  { title: 'AI / ML',        skills: ['Gemini API', 'OpenRouter', 'NLP', 'XGBoost', 'OpenCV'] },
-  { title: 'Tools',          skills: ['Git', 'GitHub', 'OAuth 2.0', 'JWT', 'Vercel', 'Netlify'] },
-]
-
-const SOCIALS = [
-  {
-    name: 'GitHub', handle: '@shreyahhh', url: 'https://github.com/shreyahhh',
-    icon: <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" className="w-5 h-5"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.416-4.042-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.84 1.236 1.84 1.236 1.07 1.834 2.809 1.304 3.495.997.108-.775.418-1.305.762-1.605-2.665-.305-5.466-1.334-5.466-5.93 0-1.31.469-2.381 1.236-3.221-.124-.303-.535-1.523.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.553 3.297-1.23 3.297-1.23.653 1.653.242 2.873.118 3.176.77.84 1.234 1.911 1.234 3.221 0 4.609-2.803 5.624-5.475 5.921.43.371.823 1.102.823 2.222 0 1.606-.014 2.898-.014 3.293 0 .322.218.694.825.576 4.765-1.584 8.199-6.081 8.199-11.384 0-6.627-5.373-12-12-12z"/></svg>,
-  },
-  {
-    name: 'LinkedIn', handle: '@shreya-analyst', url: 'https://www.linkedin.com/in/shreya-analyst/',
-    icon: <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" className="w-5 h-5"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>,
-  },
-  {
-    name: 'LeetCode', handle: '@shreyahhh_', url: 'https://leetcode.com/u/shreyahhh_/',
-    icon: <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" className="w-5 h-5"><path d="M16.102 17.93l-2.697 2.607c-.466.467-1.111.662-1.823.662s-1.357-.195-1.824-.662l-4.332-4.363c-.467-.467-.702-1.15-.702-1.863s.235-1.357.702-1.824l4.319-4.38c.467-.467 1.125-.645 1.837-.645s1.357.195 1.823.662l2.697 2.606c.514.515 1.365.497 1.9-.038.535-.536.553-1.387.039-1.901l-2.609-2.636a5.055 5.055 0 0 0-2.445-1.337l2.467-2.503c.516-.514.498-1.366-.037-1.901-.535-.535-1.387-.552-1.902-.038l-10.1 10.101c-.981.982-1.494 2.337-1.494 3.835 0 1.498.513 2.895 1.494 3.875l4.347 4.361c.981.979 2.337 1.452 3.834 1.452s2.853-.512 3.835-1.494l2.609-2.637c.514-.514.496-1.365-.039-1.9s-1.386-.553-1.899-.039zM20.811 13.01H10.666c-.702 0-1.27.604-1.27 1.346s.568 1.346 1.27 1.346h10.145c.701 0 1.27-.604 1.27-1.346s-.569-1.346-1.27-1.346z"/></svg>,
-  },
-  {
-    name: 'Unstop', handle: '@shreyamr4373', url: 'https://unstop.com/u/shreyamr4373',
-    icon: <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" className="w-5 h-5"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-7 18c-3.314 0-6-2.686-6-6s2.686-6 6-6 6 2.686 6 6-2.686 6-6 6z"/></svg>,
-  },
-  {
-    name: 'Email', handle: 'shreyyaaa369@gmail.com', url: 'mailto:shreyyaaa369@gmail.com',
-    icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/></svg>,
-  },
-]
-
 // ── Page ──────────────────────────────────────────────────────────────────────
 export default function Home({ navigate }) {
   const nameRef = useRef(null)
+  const [activeNameLetter, setActiveNameLetter] = useState(null)
+
+  const onNamePointerMove = useCallback((e) => {
+    const el = nameRef.current
+    if (!el) return
+    const next = pickHeroNameLetterIndex(e.clientX, el)
+    setActiveNameLetter((prev) => (prev === next ? prev : next))
+  }, [])
+
+  const onNamePointerLeave = useCallback(() => {
+    setActiveNameLetter(null)
+  }, [])
 
   return (
-    <div>
+    <div className="bg-[#060606]">
 
       {/* ── HERO ─────────────────────────────────────────── */}
-      <section className="relative min-h-screen flex flex-col justify-end">
+      <section className="relative flex min-h-screen flex-col justify-end bg-[#060606]">
 
         {/* Cat lives inside the hero so it scrolls with the page */}
         <ScreenCat nameRef={nameRef} />
-
-        {/* Ambient glow */}
-        <div className="pointer-events-none absolute inset-0">
-          <div className="absolute top-0 inset-x-0 h-2/3 bg-gradient-to-b from-indigo-950/30 to-transparent" />
-          <div className="absolute bottom-0 left-1/3 w-[50vw] h-[40vh] bg-indigo-600/8 rounded-full blur-[120px]" />
-          <div className="absolute bottom-0 right-1/4 w-[30vw] h-[30vh] bg-purple-600/6 rounded-full blur-[100px]" />
-        </div>
 
         {/* Top-right meta */}
         <motion.div
           className="absolute top-24 right-8 md:right-14 text-right"
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.4 }}
         >
-          <p className="text-xs text-[#555] uppercase tracking-widest">Currently at</p>
-          <p className="text-sm text-[#a1a1a1] font-medium">NeuRazor Labs</p>
+          <p className="text-[11px] uppercase tracking-widest text-[#555]">Currently at</p>
+          <p className="text-[13px] font-medium text-[#a1a1a1]">NeuRazor Labs</p>
         </motion.div>
 
         {/* Bottom block — intro + name */}
         <motion.div
-          className="relative z-10 px-8 md:px-14 pb-32"
+          className="relative z-10 w-full min-w-0 px-8 md:px-14 pb-32"
           initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}
         >
           {/* Tagline */}
-          <p className="text-base md:text-lg text-[#888] max-w-xs leading-snug mb-4">
-            Hey! I build fast, beautiful<br />
-            apps — from idea to deployment.
+          <p
+            className="mb-4 min-w-0 overflow-x-auto whitespace-nowrap leading-snug text-[#888] [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+            style={{ fontSize: 14 }}
+          >
+            Not just another dev on the internet.{' '}
+            <span className="catchy-script inline font-normal" style={{ fontSize: '1.22em' }}>
+              (Okay maybe. But a really good one.)
+            </span>
           </p>
 
-          {/* Massive name */}
           <h1
             ref={nameRef}
-            className="font-black text-white leading-[0.82] tracking-tighter select-none"
-            style={{ fontSize: 'clamp(72px, 22.5vw, 360px)', marginLeft: '-0.03em' }}
+            aria-label="Shreya"
+            className="home-shreya-heading font-black leading-[0.82] tracking-tighter text-white select-none"
+            onPointerMove={onNamePointerMove}
+            onPointerLeave={onNamePointerLeave}
+            onPointerCancel={onNamePointerLeave}
           >
-            Shreya
+            <span aria-hidden="true">
+              {'Shreya'.split('').map((char, i) => (
+                <span
+                  key={`${char}-${i}`}
+                  className={`home-name-slot${activeNameLetter === i ? ' home-name-slot--active' : ''}`}
+                >
+                  <span className="home-name-base">{char}</span>
+                  <span className="home-name-fx">{char}</span>
+                </span>
+              ))}
+            </span>
           </h1>
 
         </motion.div>
       </section>
 
-      {/* ── ABOUT / SUMMARY ──────────────────────────────── */}
-      <section className="border-t border-white/10 py-20 px-6">
-        <div className="max-w-6xl mx-auto">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}>
-            <p className="text-xs font-semibold uppercase tracking-widest text-indigo-400 mb-3">About</p>
-            <div className="grid md:grid-cols-2 gap-12 items-start">
+      {/* ── ABOUT / SUMMARY — same horizontal rails as Resume (max-w-6xl + px-6) ─ */}
+      <section className="border-t border-white/10 bg-[#060606] py-20">
+        <div className="mx-auto box-border max-w-[1200px] px-[80px]">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
+            <p className="mb-3 font-mono text-[11px] font-semibold uppercase tracking-[0.15em] text-indigo-400">About</p>
+            <div className="grid items-start gap-10 md:grid-cols-2 md:gap-12">
               <div>
-                <h2 className="text-3xl font-bold mb-5 text-white">Who I Am</h2>
-                <p className="text-[#a1a1a1] leading-relaxed mb-4">
-                  I'm a Computer Science Engineering student at Bennett University with a CGPA of 8.80, graduating in 2026.
-                  I specialize in full-stack development with a passion for AI/ML integrations, performance optimization, and beautiful UIs.
+                <h2 className="mb-5 font-bold text-white" style={{ fontSize: 'clamp(28px, 4vw, 32px)', lineHeight: 1.2 }}>
+                  Who I Am
+                </h2>
+                <p className="mb-4 text-[17px] font-medium leading-snug text-white">
+                  I build things that are fast, beautiful, and actually work.
                 </p>
-                <p className="text-[#a1a1a1] leading-relaxed">
-                  As a Design Head and developer, I bring both technical precision and aesthetic sensibility to everything I build.
-                  Currently contributing as a Full Stack Developer at NeuRazor Labs.
+                <p className="text-[14px] leading-relaxed text-[#a1a1a1]">
+                  CS student at Bennett University, graduating 2026 but I stopped waiting for a degree to start shipping.
+                  I’ve built for platforms with 150,000+ users, published research in Springer and Elsevier, and I lead design
+                  while writing the code behind it. Full stack by skill, detail-obsessed by nature.
                 </p>
               </div>
-              <div className="grid grid-cols-2 gap-4">
-                {[
-                  { label: 'CGPA', value: '8.80 / 10', icon: '🎓' },
-                  { label: 'University', value: 'Bennett University', icon: '🏫' },
-                  { label: 'Batch', value: '2022 – 2026', icon: '📅' },
-                  { label: 'Role', value: 'Full-Stack Dev', icon: '💻' },
-                ].map((item) => (
-                  <div key={item.label} className="bg-[#111] border border-white/10 rounded-xl p-4">
-                    <span className="text-2xl mb-2 block">{item.icon}</span>
-                    <p className="text-xs text-[#a1a1a1] uppercase tracking-wider mb-1">{item.label}</p>
-                    <p className="text-sm font-semibold text-white">{item.value}</p>
-                  </div>
-                ))}
-              </div>
+              <HomeAboutSlideshow />
             </div>
           </motion.div>
         </div>
       </section>
 
-      {/* ── SKILLS ───────────────────────────────────────── */}
-      <section className="border-t border-white/10 py-20 px-6">
-        <div className="max-w-6xl mx-auto">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}>
-            <p className="text-xs font-semibold uppercase tracking-widest text-indigo-400 mb-3">Technical Stack</p>
-            <h2 className="text-3xl font-bold mb-10 text-white">Skills</h2>
-            <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-4">
-              {SKILLS.map((cat) => (
-                <div key={cat.title} className="bg-[#111] border border-white/10 rounded-xl p-5 hover:border-white/20 transition-all">
-                  <h3 className="text-xs font-semibold uppercase tracking-widest text-indigo-400 mb-3">{cat.title}</h3>
-                  <div className="flex flex-wrap gap-2">
-                    {cat.skills.map((s) => (
-                      <span key={s} className="text-xs text-[#a1a1a1] bg-white/5 border border-white/10 px-2.5 py-1 rounded-full">{s}</span>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* ── RESUME ───────────────────────────────────────── */}
-      <section className="border-t border-white/10 py-20 px-6 pb-28">
-        <div className="max-w-6xl mx-auto">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}>
-            <p className="text-xs font-semibold uppercase tracking-widest text-indigo-400 mb-3">Document</p>
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
-              <div>
-                <h2 className="text-3xl font-bold text-white mb-2">Resume</h2>
-                <p className="text-sm text-[#a1a1a1]">Open or download my latest resume.</p>
-              </div>
-              <div className="flex gap-3">
-                <a
-                  href="https://drive.google.com/file/d/1Ra6JNYZAlCX9SH5oXi_cdeMR5G03JdJR/view?usp=sharing"
-                  target="_blank" rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-500 text-white text-sm font-semibold hover:from-indigo-400 hover:to-purple-400 transition-all"
-                >
-                  Open in Drive ↗
-                </a>
-                <a
-                  href="https://drive.google.com/file/d/1Ra6JNYZAlCX9SH5oXi_cdeMR5G03JdJR/view?usp=sharing"
-                  target="_blank" rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-white/15 bg-white/5 text-white text-sm font-semibold hover:bg-white/10 transition-all"
-                >
-                  Download
-                </a>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
+      <HomeBelowAboutSections />
 
     </div>
   )
